@@ -37,6 +37,5 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("default", String.valueOf(id) + "is clicked");
             }
         }
-
     };
 }
