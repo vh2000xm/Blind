@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final String[] items = {"WHITE", "RED", "GREEN", "BLUE", "BLACK"} ;
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items) ;
+
+        listview = (ListView) findViewById(R.id.drawer_menulist) ;
+        listview.setAdapter(adapter) ;
 
         addroom = (ImageButton)findViewById(R.id.btn_addroom);
         addroom.setOnClickListener(viewOnClickListener);
