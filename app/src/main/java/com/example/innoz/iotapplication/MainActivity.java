@@ -14,9 +14,6 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-    ListView listview = null ;
-
-
     DrawerLayout mDrawerLayout;
     ImageButton btn_sidemenu;
     View drawerView;
@@ -28,18 +25,23 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerView = (View) findViewById(R.id.drawer);
         btn_sidemenu = (ImageButton)findViewById(R.id.btn_sidemenu) ;
-        btn_sidemenu.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View arg0) {
-                mDrawerLayout.openDrawer(drawerView);
-            }
-        });
-
+        btn_sidemenu.setOnClickListener(viewOnClickListener);
         Button buttonCloseDrawer = (Button) findViewById(R.id.closedrawer);
-        buttonCloseDrawer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                mDrawerLayout.closeDrawers();
-            }
-        });
+        buttonCloseDrawer.setOnClickListener(viewOnClickListener);
     }
+
+    View.OnClickListener viewOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            switch (id) {
+                case R.id.btn_sidemenu:
+                    mDrawerLayout.openDrawer(drawerView);
+                    break;
+                case R.id.closedrawer:
+                    mDrawerLayout.closeDrawers();
+                    break;
+            }
+        }
+    };
 }
