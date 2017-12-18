@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.openDrawer(drawerView);
                     break;
                 case R.id.btn_addroom:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                    startActivity(new Intent(MainActivity.this, Addroom_Activity.class));
                     break;
                 default:
                     Log.d("MainActivity", String.valueOf(id) + "is clicked");
