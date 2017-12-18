@@ -22,6 +22,5 @@ public class SplashActivity extends Activity {
             intent.putExtra("state", "launch");
             startActivity(intent);
             finish();
-
     }
 }
