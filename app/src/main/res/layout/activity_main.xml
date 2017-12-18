@@ -8,4 +8,12 @@
     android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context="com.example.innoz.iotapplication.MainActivity">
 
+    <ImageButton
+        android:id="@+id/btn_livingroom"
+        android:layout_width="304dp"
+        android:layout_height="272dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/livingroom"
+        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>
