@@ -24,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="60"
+            android:layout_weight="55"
             android:orientation="vertical">
 
             <LinearLayout
@@ -81,16 +81,22 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
+            android:orientation="horizontal"></LinearLayout>
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:gravity="center_horizontal">
+            android:layout_weight="9">
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="0dp">
 
                 <ImageButton
                     android:id="@+id/btn_livingroom"
@@ -98,10 +104,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/btn_room1"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitEnd"
+                    android:cropToPadding="false"
+                    android:scaleType="fitStart"
                     android:src="@drawable/livingroom"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -114,21 +121,23 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitEnd"
+                    android:scaleType="fitStart"
                     android:src="@drawable/small_room"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.784"
                     tools:layout_editor_absoluteX="206dp" />
+
             </TableRow>
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="0dp">
 
                 <ImageButton
                     android:id="@+id/btn_kitchen"
@@ -147,7 +156,7 @@
 
                 <ImageButton
                     android:id="@+id/btn_addroom"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/btn_room1"
                     android:layout_weight="1"
@@ -159,6 +168,7 @@
                     app:layout_constraintVertical_bias="0.784"
                     app:srcCompat="@drawable/add_room"
                     tools:layout_editor_absoluteX="206dp" />
+
             </TableRow>
 
             <TableRow
