@@ -15,15 +15,6 @@
         android:visibility="visible"
         app:srcCompat="@drawable/loadingtitle"
         tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="245dp" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="114dp"
-        android:layout_height="82dp"
-        android:visibility="visible"
-        app:srcCompat="@android:drawable/arrow_up_float"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="150dp" />
+        tools:layout_editor_absoluteY="217dp" />
 
 </android.support.constraint.ConstraintLayout>
