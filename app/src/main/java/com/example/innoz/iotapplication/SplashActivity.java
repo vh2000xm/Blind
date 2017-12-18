@@ -14,7 +14,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         // MainActivity.class 자리에 다음에 넘어갈 액티비티를 넣어주기
         try {
-            Thread.sleep(3000);
+            Thread.sleep(3000);     //test11
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
