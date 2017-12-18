@@ -12,15 +12,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    ImageButton livingroom;
+    ImageButton addroom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        livingroom = (ImageButton)findViewById(R.id.btn_livingroom);
-        livingroom.setOnClickListener(viewOnClickListener);
+        addroom = (ImageButton)findViewById(R.id.btn_addroom);
+        addroom.setOnClickListener(viewOnClickListener);
 
     }
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             int id = v.getId();
             switch (id) {
-                case R.id.btn_livingroom:
+                case R.id.btn_addroom:
                     startActivity(new Intent(MainActivity.this, DetailActivity.class));
                     break;
 
