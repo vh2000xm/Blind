@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="60"
+            android:layout_weight="55"
             android:orientation="vertical">
 
             <LinearLayout
@@ -50,22 +50,13 @@
                     <TextView
                         android:id="@+id/MyHome"
                         android:layout_width="wrap_content"
-                        android:layout_height="3dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="My Home"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
                         android:textSize="24sp"
                         android:textStyle="bold" />
-                    <!--<Spinner
-                        android:id="@+id/spinner1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/rooms"
-                        android:textStyle="bold"
-                        android:layout_weight="1"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/background_dark"/>-->
 
                     <TextView
                         android:id="@+id/textView2"
@@ -89,16 +80,22 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
+            android:orientation="horizontal"></LinearLayout>
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:gravity="center_horizontal">
+            android:layout_weight="9">
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="0dp">
 
                 <ImageButton
                     android:id="@+id/btn_livingroom"
@@ -106,10 +103,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/btn_room1"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitEnd"
+                    android:cropToPadding="false"
+                    android:scaleType="fitStart"
                     android:src="@drawable/livingroom"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -117,26 +115,28 @@
                     tools:layout_editor_absoluteX="206dp" />
 
                 <ImageButton
-                    android:id="@+id/btn_smallroom"
+                    android:id="@+id/btn_room1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitEnd"
+                    android:scaleType="fitStart"
                     android:src="@drawable/small_room"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.784"
                     tools:layout_editor_absoluteX="206dp" />
+
             </TableRow>
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="0dp">
 
                 <ImageButton
                     android:id="@+id/btn_kitchen"
@@ -155,7 +155,7 @@
 
                 <ImageButton
                     android:id="@+id/btn_addroom"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/btn_room1"
                     android:layout_weight="1"
@@ -167,6 +167,7 @@
                     app:layout_constraintVertical_bias="0.784"
                     app:srcCompat="@drawable/add_room"
                     tools:layout_editor_absoluteX="206dp" />
+
             </TableRow>
 
             <TableRow
@@ -179,6 +180,7 @@
         </TableLayout>
 
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/drawer"
