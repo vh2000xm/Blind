@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:screenOrientation="portrait"></activity>
         <activity android:name=".DetailActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Addroom_Activity" android:theme="@style/Theme.AppCompat.NoActionBar" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
