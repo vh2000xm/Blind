@@ -1,49 +1,45 @@
 package com.example.innoz.iotapplication;
-
-import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
+
 
 public class MainActivity extends AppCompatActivity {
-
-
-
-    ImageButton addroom;
     ListView listview = null ;
 
+
+    DrawerLayout mDrawerLayout;
+    ImageButton btn_sidemenu;
+    View drawerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerView = (View) findViewById(R.id.drawer);
+        btn_sidemenu = (ImageButton)findViewById(R.id.btn_sidemenu) ;
+        btn_sidemenu.setOnClickListener(new View.OnClickListener() {
 
-
-        addroom = (ImageButton)findViewById(R.id.btn_addroom);
-        addroom.setOnClickListener(viewOnClickListener);
-
-    }
-
-    View.OnClickListener viewOnClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            switch (id) {
-                case R.id.btn_addroom:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
-                    break;
-                case R.id.btn_sidemenu:
-                    // 사이드 메뉴 추가하기
-                    break;
-
-                default:
-                    Log.d("default", String.valueOf(id) + "is clicked");
+            public void onClick(View arg0) {
+                mDrawerLayout.openDrawer(drawerView);
             }
-        }
-    };
+        });
+
+        Button buttonCloseDrawer = (Button) findViewById(R.id.closedrawer);
+        buttonCloseDrawer.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                mDrawerLayout.closeDrawers();
+            }
+        });
+    }
 }
