@@ -8,65 +8,81 @@
     android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context="com.example.innoz.iotapplication.MainActivity">
 
-    <android.support.v4.widget.DrawerLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/drawer">
+    <LinearLayout
+        android:layout_width="365dp"
+        android:layout_height="548dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_weightSum="10">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="73dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="65dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/btn_sidemenu"
-                        android:layout_width="79dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#FFFFFF"
-                        android:scaleType="fitStart"
-                        app:srcCompat="@drawable/line3" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="185dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_weightSum="5"
+                android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btn_addroom"
-                    android:layout_width="match_parent"
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitStart"
-                    android:background="#FFFFFF"
-                    app:srcCompat="@drawable/add_room" />
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/line3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="My Home" />
+
+                    <EditText
+                        android:id="@+id/editText2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Name" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
-        <ListView
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:background="#FFFFFF"
-            android:id="@+id/drawer_menulist" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="306dp"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="30dp"
+            android:layout_weight="8">
 
-    </android.support.v4.widget.DrawerLayout>
+            <ImageButton
+                android:id="@+id/btn_addroom"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="fitStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.784"
+                app:srcCompat="@drawable/add_room"
+                tools:layout_editor_absoluteX="206dp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
