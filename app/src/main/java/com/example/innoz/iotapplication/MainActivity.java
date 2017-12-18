@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-
-
+import android.widget.Spinner;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerView = (View) findViewById(R.id.drawer);
+
+//        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.rooms, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+        //spinner.setOnItemSelectedListener(this);
 
         btn_smallroom = (ImageButton)findViewById(R.id.btn_smallroom) ;
         btn_sidemenu = (ImageButton)findViewById(R.id.btn_sidemenu) ;
@@ -40,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
         buttonCloseDrawer.setOnClickListener(viewOnClickListener);
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -51,15 +70,23 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.closedrawer:
                     mDrawerLayout.closeDrawers();
                     break;
+
                 case R.id.btn_kitchen:
-                    mDrawerLayout.openDrawer(drawerView);
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
                     break;
+
                 case R.id.btn_smallroom:
-                    mDrawerLayout.openDrawer(drawerView);
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
                     break;
+
+                case R.id.btn_livingroom:
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                    break;
+
                 case R.id.btn_addroom:
                     startActivity(new Intent(MainActivity.this, Addroom_Activity.class));
                     break;
+
                 default:
                     Log.d("MainActivity", String.valueOf(id) + "is clicked");
             }
