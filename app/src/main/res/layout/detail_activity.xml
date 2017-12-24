@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:theme="@style/Theme.AppCompat.NoActionBar">
+    android:theme="@style/NoTitle01">
 
     <Button
         android:id="@+id/button"
