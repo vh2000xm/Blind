@@ -34,12 +34,12 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btn_sidemenu"
+                    android:id="@+id/back_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/line3" />
+                    android:src="@drawable/back_arrow" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
