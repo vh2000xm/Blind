@@ -111,7 +111,6 @@ public class Addroom_Activity extends Activity implements View.OnClickListener {
                     // Next Step
                     btService.scanDevice();
                 } else {
-
                     Log.d(TAG, "Bluetooth is not enabled");
                 }
                 break;
