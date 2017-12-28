@@ -1,5 +1,6 @@
 package com.example.innoz.iotapplication;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +33,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,12 +71,21 @@ public class Addroom_Activity extends AppCompatActivity {
 
     };
 
+    ///////////////위치 권한, 블루투스 권한 확인 및 요청
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate");
 
         setContentView(R.layout.addroom_activity);
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("서비스를 이용하기 위해 위치 권한이 필요합니다.")
+                .setDeniedMessage("권한이 없을 경우 서비스를 이용할 수 없습니다. \n [설정] > [권한] 에서 권한을 허용할 수 있어요.")
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
 
         /** Main Layout **/
         btn_Connect = (Button) findViewById(R.id.btn_connect);
@@ -87,6 +100,19 @@ public class Addroom_Activity extends AppCompatActivity {
             btService = new BluetoothService(this, mHandler);
         }
     }
+
+    PermissionListener permissionlistener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(Addroom_Activity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            Toast.makeText(Addroom_Activity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    };
+
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
