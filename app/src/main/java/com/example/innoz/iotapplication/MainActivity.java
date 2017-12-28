@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 //        spinner.setAdapter(adapter);
         //spinner.setOnItemSelectedListener(this);
 
-        btn_smallroom = (ImageButton)findViewById(R.id.btn_smallroom) ;
+        btn_smallroom = (ImageButton)findViewById(R.id.btn_room1) ;
         btn_sidemenu = (ImageButton)findViewById(R.id.btn_sidemenu) ;
         btn_kitchen = (ImageButton)findViewById(R.id.btn_kitchen) ;
         btn_mainroom = (ImageButton)findViewById(R.id.btn_livingroom) ;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, DetailActivity.class));
                     break;
 
-                case R.id.btn_smallroom:
+                case R.id.btn_room1:
                     startActivity(new Intent(MainActivity.this, DetailActivity.class));
                     break;
 
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_addroom:
+                    //startActivity(new Intent(MainActivity.this, Help_Bluetooth_Activity.class));
                     startActivity(new Intent(MainActivity.this, Addroom_Activity.class));
                     break;
 
