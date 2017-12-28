@@ -102,7 +102,7 @@ public class SlidingView extends ViewGroup {
     // viewgroup 클래스의 onDraw 메서드라 생각하면 되겠다.
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        canvas.drawBitmap(mWallpaper, 0, 0, mPaint); // 바탕화면을 그리고
+        //canvas.drawBitmap(mWallpaper, 0, 0, mPaint); // 바탕화면을 그리고
         for (int i = 0; i < getChildCount(); i++) {
             drawChild(canvas, getChildAt(i), 100); // 차일드 뷰들을 하나하나 그린다.
         }
@@ -172,12 +172,12 @@ public class SlidingView extends ViewGroup {
                 mScroller.startScroll(getScrollX(), 0, move, 0, Math.abs(move));
 
                 if (mToast != null) {
-                    mToast.setText("page : " + nextPage);
+//                    mToast.setText("page : " + nextPage);
                 } else {
-                    mToast = Toast.makeText(getContext(), "page : " + nextPage,
-                            Toast.LENGTH_SHORT);
+//                    mToast = Toast.makeText(getContext(), "page : " + nextPage,
+//                            Toast.LENGTH_SHORT);
                 }
-                mToast.show();
+//                mToast.show();
                 invalidate();
                 mCurPage = nextPage;
 
