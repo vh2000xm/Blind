@@ -23,13 +23,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerView = (View) findViewById(R.id.drawer);
 
-//        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.rooms, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-        //spinner.setOnItemSelectedListener(this);
-
         btn_smallroom = (ImageButton)findViewById(R.id.btn_room1) ;
         btn_sidemenu = (ImageButton)findViewById(R.id.btn_sidemenu) ;
         btn_kitchen = (ImageButton)findViewById(R.id.btn_kitchen) ;
