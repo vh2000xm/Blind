@@ -38,10 +38,8 @@ public class BluetoothService {
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private BluetoothAdapter btAdapter;
-
     private Activity mActivity;
     private Handler mHandler;
-
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
 
