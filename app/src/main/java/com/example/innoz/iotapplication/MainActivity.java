@@ -64,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_kitchen:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text","kitchen"));
                     break;
 
                 case R.id.btn_room1:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text","room1"));
                     break;
 
                 case R.id.btn_livingroom:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text","living room"));
                     break;
 
                 case R.id.btn_addroom:

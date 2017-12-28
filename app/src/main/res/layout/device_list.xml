@@ -22,8 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_paired_devices"
+        android:textColor = "#666"
         android:visibility="gone"
-        android:background="#666"
+        android:background="#FFFFFF"
         android:paddingLeft="5dp"
         />
     <ListView android:id="@+id/paired_devices"
@@ -37,7 +38,6 @@
         android:layout_height="wrap_content"
         android:text="@string/title_other_devices"
         android:visibility="gone"
-        android:background="#666"
         android:paddingLeft="5dp"
         />
     <ListView android:id="@+id/new_devices"
