@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+import android.support.v4.view.ViewPager;
+
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +35,7 @@ public class BluetoothService {
 
     // RFCOMM Protocol
     private static final UUID MY_UUID = UUID
-            .fromString("00000003-0000-1000-8000-00805F9B34FB");
+            .fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private BluetoothAdapter btAdapter;
 
@@ -49,12 +52,10 @@ public class BluetoothService {
     private static final int STATE_CONNECTED = 3; // now connected to a remote
     // device
 
-    // Constructors
+
     public BluetoothService(Activity ac, Handler h) {
         mActivity = ac;
         mHandler = h;
-
-        // BluetoothAdapter ���
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
@@ -65,15 +66,11 @@ public class BluetoothService {
      */
     public boolean getDeviceState() {
         Log.i(TAG, "Check the Bluetooth support");
-
         if (btAdapter == null) {
             Log.d(TAG, "Bluetooth is not available");
-
             return false;
-
         } else {
             Log.d(TAG, "Bluetooth is available");
-
             return true;
         }
     }
@@ -120,23 +117,21 @@ public class BluetoothService {
         connect(device);
     }
 
-    // Bluetooth ���� set
     private synchronized void setState(int state) {
         Log.d(TAG, "setState() " + mState + " -> " + state);
         mState = state;
     }
 
-    // Bluetooth ���� get
+
     public synchronized int getState() {
         return mState;
     }
 
     public synchronized void start() {
         Log.d(TAG, "start");
-
         // Cancel any thread attempting to make a connection
         if (mConnectThread == null) {
-
+            //nothing.
         } else {
             mConnectThread.cancel();
             mConnectThread = null;
