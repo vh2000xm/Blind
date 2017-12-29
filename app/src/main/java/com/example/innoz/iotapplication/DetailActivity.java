@@ -43,7 +43,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Log.d(TAG,getIntent().getExtras().getString("small_text"));
 
-
         //Layout Init
         progressbar = (CircularProgressBar)findViewById(R.id.progressBar);
         smalltext = (TextView)findViewById(R.id.small_text);
