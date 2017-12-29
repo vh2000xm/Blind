@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +8,7 @@
     android:theme="@style/NoTitle01">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="365dp"
         android:layout_height="548dp"
         android:layout_marginBottom="8dp"
@@ -23,14 +23,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="55"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:weightSum="75">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="10"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -60,7 +61,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/small_text"
+                        android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -83,28 +84,177 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="60"
-            android:orientation="horizontal"></LinearLayout>
+            android:layout_height="11dp"
+            android:layout_weight="15"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/btn_increase" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/Base.TextAppearance.AppCompat"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="false"
+                android:indeterminateTint="@color/blue"
+                android:indeterminateTintMode="src_atop" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/btn_decrease" />
+        </LinearLayout>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="9">
+            android:layout_height="wrap_content">
 
             <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imageButton3"
+                        android:layout_width="180dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentTop="false"
+                        android:layout_gravity="left"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitStart"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.784"
+                        app:srcCompat="@drawable/btn_fullopen" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton4"
+                        android:layout_width="180dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentTop="false"
+                        android:layout_gravity="right"
+                        android:background="@android:color/transparent"
+                        android:longClickable="false"
+                        android:scaleType="fitStart"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.784"
+                        app:srcCompat="@drawable/btn_fullclose" />
+                </LinearLayout>
             </TableRow>
 
             <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="82dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageButton
+                        android:id="@+id/imageButton8"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="22dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/btn_25per" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton7"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/imageButton8"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/btn_50per" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton6"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@+id/imageButton7"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/btn_75per" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton5"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@+id/imageButton6"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/btn_userset" />
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/imageButton9"
+                        android:layout_width="360dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/darker_gray"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/bot_bar"
+                        tools:layout_editor_absoluteX="198dp"
+                        tools:layout_editor_absoluteY="501dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        app:srcCompat="@drawable/alarm_icon" />
+                </RelativeLayout>
+            </TableRow>
         </TableLayout>
 
     </LinearLayout>

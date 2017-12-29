@@ -139,13 +139,11 @@ public class Addroom_Activity extends AppCompatActivity {
                     Log.d(TAG,"in addroom TestBUTTON");
                     String test = "t";
                     btService.write(test.getBytes());
-
                     break;
 
                 default:
                     Log.d("default", String.valueOf(id) + "is clicked");
             }
-
         }
     };
 
