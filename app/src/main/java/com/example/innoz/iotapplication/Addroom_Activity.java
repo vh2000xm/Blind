@@ -61,6 +61,7 @@ public class Addroom_Activity extends AppCompatActivity {
     private Button btn_test;
     private TextView txt_Result;
     private BluetoothService btService = null;
+    public String key;
 
 
     private final Handler mHandler = new Handler() {
@@ -130,9 +131,12 @@ public class Addroom_Activity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_accept:
+                    Intent i = new Intent();
+                    i.putExtra("address",key);
+                    setResult(1,i);
+                    finish();
                     // 선택된 블루투스 주소와 이름을 shared preference 로 저장하는 알고리즘 추가하기.
                     // Setresult. putExtra 사용하여 메인 액티비티로 값 넘기기
-                    finish();
                     break;
 
                 case R.id.btn_test:
@@ -154,7 +158,7 @@ public class Addroom_Activity extends AppCompatActivity {
             case REQUEST_CONNECT_DEVICE:
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
-                    String key = data.getStringExtra("device_address");
+                    key = data.getStringExtra("device_address");
                     txt_Result.setText(key);
                     btService.getDeviceInfo(data);
                 }
