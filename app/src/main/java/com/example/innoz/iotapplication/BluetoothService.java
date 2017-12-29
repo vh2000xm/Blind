@@ -35,7 +35,7 @@ public class BluetoothService {
 
     // RFCOMM Protocol
     private static final UUID MY_UUID = UUID
-            .fromString("00001101-0000-1000-8000-00805F9B34FB");
+            .fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     private BluetoothAdapter btAdapter;
     private Activity mActivity;
@@ -225,6 +225,7 @@ public class BluetoothService {
             if (mState != STATE_CONNECTED)
                 return;
             r = mConnectedThread;
+            r.write(out);
         } // Perform the write unsynchronized r.write(out); }
     }
 
@@ -356,6 +357,7 @@ public class BluetoothService {
          */
         public void write(byte[] buffer) {
             try {
+                Log.d(TAG,"in bluetooth Write");
                 mmOutStream.write(buffer);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);

@@ -58,6 +58,7 @@ public class Addroom_Activity extends AppCompatActivity {
     // Layout
     private Button btn_Connect;
     private Button btn_accept;
+    private Button btn_test;
     private TextView txt_Result;
     private BluetoothService btService = null;
 
@@ -91,10 +92,11 @@ public class Addroom_Activity extends AppCompatActivity {
         btn_Connect = (Button) findViewById(R.id.btn_connect);
         btn_accept = (Button) findViewById(R.id.btn_accept);
         txt_Result = (TextView) findViewById(R.id.txt_result);
+        btn_test = (Button) findViewById(R.id.btn_test);
 
         btn_Connect.setOnClickListener(viewOnClickListener);
         btn_accept.setOnClickListener(viewOnClickListener);
-
+        btn_test.setOnClickListener(viewOnClickListener);
         // BluetoothService Ŭ���� ����
         if(btService == null) {
             btService = new BluetoothService(this, mHandler);
@@ -131,6 +133,13 @@ public class Addroom_Activity extends AppCompatActivity {
                     // 선택된 블루투스 주소와 이름을 shared preference 로 저장하는 알고리즘 추가하기.
                     // Setresult. putExtra 사용하여 메인 액티비티로 값 넘기기
                     finish();
+                    break;
+
+                case R.id.btn_test:
+                    Log.d(TAG,"in addroom TestBUTTON");
+                    String test = "t";
+                    btService.write(test.getBytes());
+
                     break;
 
                 default:
