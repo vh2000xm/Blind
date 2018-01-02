@@ -23,7 +23,6 @@ public class DetailActivity extends AppCompatActivity {
     private BluetoothService btService = null;
 
 
-
     //Layout
     public CircularProgressBar progressbar;
 
@@ -40,22 +39,20 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+        if (btService == null) {
+            btService = new BluetoothService(this, mHandler);
+        }
 
-        Log.d(TAG,getIntent().getExtras().getString("small_text"));
+        Log.d(TAG, getIntent().getExtras().getString("small_text"));
 
         //Layout Init
-        progressbar = (CircularProgressBar)findViewById(R.id.progressBar);
-        smalltext = (TextView)findViewById(R.id.small_text);
+        progressbar = (CircularProgressBar) findViewById(R.id.progressBar);
+        smalltext = (TextView) findViewById(R.id.small_text);
 
         //Layout Setting
         smalltext.setText(getIntent().getExtras().getString("small_text"));
         progressbar.setProgressWithAnimation(30);
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
         // 블루투스 주소값 받아와서 연결하기.
-
-        if(btService == null) {
-            btService = new BluetoothService(this, mHandler);
-        }
-
     }
 }
