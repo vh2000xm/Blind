@@ -53,7 +53,7 @@ public class DeviceListActivity extends Activity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 doDiscovery();
-                v.setVisibility(View.GONE);
+// 검색중에 버튼 숨기기               v.setVisibility(View.GONE);
             }
         });
 

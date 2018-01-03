@@ -6,5 +6,6 @@
     <color name="Main_Blue">#4573b2</color>
     <color name="blue">#b0cce7</color>
     <color name="progress_back">#f4f3f3</color>
+    <color name="black">#000000</color>
 
 </resources>

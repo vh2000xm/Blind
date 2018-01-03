@@ -109,9 +109,7 @@ public class BluetoothService {
         // Get the BluetoothDevice object
         // BluetoothDevice device = btAdapter.getRemoteDevice(address);
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
-
         Log.d(TAG, "Get Device Info \n" + "address : " + address);
-
         connect(device);
     }
 

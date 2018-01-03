@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     View drawerView;
     public String key;
     public String TAG="MainActivity";
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +69,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_kitchen:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", "kitchen").putExtra("address",key));
-                    Log.d(TAG,key);
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", getString(R.string.kichen)).putExtra(EXTRA_DEVICE_ADDRESS,"20:17:01:05:58:33"));
                     break;
 
                 case R.id.btn_room1:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", "room1"));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", getString(R.string.small_room)));
                     break;
 
                 case R.id.btn_livingroom:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", "living room"));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", getString(R.string.living_room)));
                     break;
 
                 case R.id.btn_addroom:
