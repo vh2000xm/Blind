@@ -33,7 +33,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.SharedPreferences;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 
 /**
@@ -54,14 +55,20 @@ public class Addroom_Activity extends AppCompatActivity {
     // Intent request code
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
+    private static final int ADDROOM_FINISH = 1;
 
     // Layout
     private Button btn_Connect;
     private Button btn_accept;
     private Button btn_test;
     private TextView txt_Result;
+    private EditText txt_Roomname;
     private BluetoothService btService = null;
-    public String key;
+    public String key = null;
+
+    //Database
+    private SQLiteService dbHelper = null;
+
 
 
     private final Handler mHandler = new Handler() {
@@ -94,6 +101,7 @@ public class Addroom_Activity extends AppCompatActivity {
         btn_accept = (Button) findViewById(R.id.btn_accept);
         txt_Result = (TextView) findViewById(R.id.txt_result);
         btn_test = (Button) findViewById(R.id.btn_test);
+        txt_Roomname = (EditText)findViewById(R.id.txt_RoomName);
 
         btn_Connect.setOnClickListener(viewOnClickListener);
         btn_accept.setOnClickListener(viewOnClickListener);
@@ -101,6 +109,9 @@ public class Addroom_Activity extends AppCompatActivity {
         // BluetoothService Ŭ���� ����
         if(btService == null) {
             btService = new BluetoothService(this, mHandler);
+        }
+        if (dbHelper == null) {
+            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
     }
 
@@ -131,12 +142,19 @@ public class Addroom_Activity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_accept:
-                    Intent i = new Intent();
-                    i.putExtra("address",key);
-                    setResult(1,i);
-                    finish();
-                    // 선택된 블루투스 주소와 이름을 shared preference 로 저장하는 알고리즘 추가하기.
-                    // Setresult. putExtra 사용하여 메인 액티비티로 값 넘기기
+                    if(txt_Roomname.getText().toString().length() != 0 && key != null) {
+                        //SQL DB에 기기 주소 및 방 이름 입력하기.
+                        Log.d(TAG,"txt room name :" + txt_Roomname.getText().toString());
+
+//                        Intent i = new Intent();
+//                        i.putExtra("address", key).putExtra("room",txt_Roomname.getText());
+//                        setResult(ADDROOM_FINISH, i);
+                        finish();
+                    }
+                    else
+                    {
+                     Toast.makeText(Addroom_Activity.this,"기기 선택 및 이름 지정되지 않음",Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
                 case R.id.btn_test:

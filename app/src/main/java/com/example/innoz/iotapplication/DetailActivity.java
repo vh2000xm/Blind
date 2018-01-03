@@ -82,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
     {
         super.onDestroy();
         Log.d(TAG,"detail Destroy");
-        //btService.stop();
+        btService.stop();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
     {
         super.onStop();
         Log.d(TAG,"detail Stop");
-        btService.stop();
+        //btService.stop();
     }
 
 
