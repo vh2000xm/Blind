@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
+        Log.d(TAG,"db value : "+dbHelper.getResult());
     }
 
     @Override
@@ -142,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    void dbcheck()
+    {
+
     }
 
 

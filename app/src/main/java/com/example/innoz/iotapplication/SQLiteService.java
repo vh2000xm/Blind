@@ -22,11 +22,11 @@ public class SQLiteService extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" CREATE TABLE BLUETOOTH_INFO ( ");
-        sb.append(" INDEX INTEGER PRIMARY KEY AUTOINCREMENT, ");
-        sb.append(" ADDRESS TEXT, ");
-        sb.append(" NAME TEXT, ");
-        sb.append(" CURRENT_PER INTEGER, ");
+        sb.append(" CREATE TABLE BLUETOOTH_INFO (");
+        sb.append("NUM INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sb.append("ADDRESS TEXT, ");
+        sb.append("NAME TEXT, ");
+        sb.append("CURRENT_PER INTEGER); ");
         db.execSQL(sb.toString());
     }
 
@@ -48,7 +48,7 @@ public class SQLiteService extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', " + room_name + ", '" + current_per + "');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', '" + room_name + "', '" + current_per + "');");
         db.close();
     }
 
@@ -87,14 +87,14 @@ public class SQLiteService extends SQLiteOpenHelper {
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
         Cursor cursor = db.rawQuery("SELECT * FROM BLUETOOTH_INFO", null);
         while (cursor.moveToNext()) {
-            result += cursor.getString(0)
-                    + " : "
+            result += cursor.getInt(0)
+                    + " 번째 "
                     + cursor.getString(1)
-                    + " | "
-                    + cursor.getInt(2)
-                    + "원 "
-                    + cursor.getString(3)
-                    + "\n";
+                    + "-주소"
+                    + cursor.getString(2)
+                    + "-방이름 "
+                    + cursor.getInt(3)
+                    + "-퍼센트\n";
         }
 
         return result;
