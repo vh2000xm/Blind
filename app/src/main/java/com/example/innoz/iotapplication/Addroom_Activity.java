@@ -145,6 +145,7 @@ public class Addroom_Activity extends AppCompatActivity {
                     if(txt_Roomname.getText().toString().length() != 0 && key != null) {
                         //SQL DB에 기기 주소 및 방 이름 입력하기.
                         Log.d(TAG,"txt room name :" + txt_Roomname.getText().toString());
+                        dbHelper.insert(key,txt_Roomname.getText().toString(),0);
 
 //                        Intent i = new Intent();
 //                        i.putExtra("address", key).putExtra("room",txt_Roomname.getText());
