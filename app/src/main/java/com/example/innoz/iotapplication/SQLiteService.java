@@ -79,6 +79,16 @@ public class SQLiteService extends SQLiteOpenHelper {
         db.close();
     }
 
+    public int select_last() {
+        SQLiteDatabase db = getWritableDatabase();
+        // 데이터베이스 모든 정보 삭제.
+        int result;
+        Cursor cursor = db.rawQuery("SELECT num FROM BLUETOOTH_INFO;", null);
+        result = cursor.getInt(0);
+        db.close();
+        return  result;
+    }
+
     public String getResult() {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();

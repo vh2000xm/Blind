@@ -46,19 +46,19 @@ public class DetailActivity extends AppCompatActivity {
             btService = new BluetoothService(this, mHandler);
         }
 
-        Log.d(TAG, getIntent().getExtras().getString("small_text"));
-        Log.d(TAG, getIntent().getExtras().getString(EXTRA_DEVICE_ADDRESS));
+//        Log.d(TAG, getIntent().getExtras().getString("small_text"));
+//        Log.d(TAG, getIntent().getExtras().getString(EXTRA_DEVICE_ADDRESS));
 
         //Layout Init
         progressbar = (CircularProgressBar) findViewById(R.id.progressBar);
         smalltext = (TextView) findViewById(R.id.small_text);
-        Blutooth_address = getIntent().getExtras().getString("address");
+//        Blutooth_address = getIntent().getExtras().getString("address");
 
         //Layout Setting
-        smalltext.setText(getIntent().getExtras().getString("small_text"));
-        progressbar.setProgressWithAnimation(30);
+//        smalltext.setText(getIntent().getExtras().getString("small_text"));
+//        progressbar.setProgressWithAnimation(30);
 
-        btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
+//        btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
 
     }
