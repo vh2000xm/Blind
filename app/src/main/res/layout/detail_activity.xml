@@ -274,6 +274,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="15dp"
                         app:srcCompat="@drawable/alarm_icon" />
+
                 </RelativeLayout>
             </TableRow>
         </TableLayout>

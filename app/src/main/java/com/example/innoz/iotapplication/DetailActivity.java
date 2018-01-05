@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Layout Setting
 //        smalltext.setText(getIntent().getExtras().getString("small_text"));
-//        progressbar.setProgressWithAnimation(30);
+        progressbar.setProgressWithAnimation(30);
 
 //        btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
