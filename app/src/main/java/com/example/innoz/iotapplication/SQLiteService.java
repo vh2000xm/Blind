@@ -26,7 +26,8 @@ public class SQLiteService extends SQLiteOpenHelper {
         sb.append("NUM INTEGER PRIMARY KEY AUTOINCREMENT, ");
         sb.append("ADDRESS TEXT, ");
         sb.append("NAME TEXT, ");
-        sb.append("CURRENT_PER INTEGER); ");
+        sb.append("CURRENT_PER INTEGER, ");
+        sb.append("MAX_VALUE INTEGER); ");
         db.execSQL(sb.toString());
     }
 
@@ -44,11 +45,11 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
     }
 
-    public void insert(String address, String room_name, int current_per) {
+    public void insert(String address, String room_name, int current_per, int max_value) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', '" + room_name + "', '" + current_per + "');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', '" + room_name + "', '" + current_per + "','" + max_value + "');");
         db.close();
     }
 
@@ -104,7 +105,9 @@ public class SQLiteService extends SQLiteOpenHelper {
                     + cursor.getString(2)
                     + "-방이름 "
                     + cursor.getInt(3)
-                    + "-퍼센트\n";
+                    + "-퍼센트"
+                    + cursor.getInt(3)
+                    + "-맥스\n";
         }
 
         return result;

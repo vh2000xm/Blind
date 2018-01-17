@@ -1,5 +1,6 @@
 package com.example.innoz.iotapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
  * Created by Ahn on 2017-12-19.
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity  extends Activity {
 
     static final String TAG = "DetailActivity";
     private TextView smalltext;
@@ -67,6 +68,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Layout Setting
 //        smalltext.setText(getIntent().getExtras().getString("small_text"));
+
         progressbar.setProgressWithAnimation(30);
 
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
