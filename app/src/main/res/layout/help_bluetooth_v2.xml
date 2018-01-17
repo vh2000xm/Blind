@@ -6,40 +6,37 @@
     android:background="#FFFFFF"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="106dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="bluetooth_helper_v2"
-                android:textColor="@color/colorPrimaryDark"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="145dp"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="115dp"
-            android:orientation="vertical"></LinearLayout>
-
-        <Button
-            android:id="@+id/bluetooth_ok"
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="129dp"
+            android:text="스마트 블라인드의 사용을 위해\n 블루투스 기기 연결을\n도와드리겠습니다.\n\n아래 스마트 블라인드\n탐지 버튼을 클릭해주세요."
+            android:textAlignment="center"
+            android:textColor="@color/Main_Blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button"
+            style="@android:style/Widget.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="131dp"
+            android:background="@color/blue"
+            android:elevation="0dp"
+            android:text="스마트 블라인드 탐지"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
