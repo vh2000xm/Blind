@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_addroom:
-                    //startActivity(new Intent(MainActivity.this, Help_Bluetooth_Activity.class));
-                    startActivityForResult(new Intent(MainActivity.this, Addroom_Activity.class), 0);
+                    startActivity(new Intent(MainActivity.this, Help_Bluetooth_Activity.class));
+                    //startActivityForResult(new Intent(MainActivity.this, Addroom_Activity.class), 0);
                     break;
 
                 default:
