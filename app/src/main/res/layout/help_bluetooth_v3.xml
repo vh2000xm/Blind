@@ -11,42 +11,29 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="129dp"
-            android:text="안녕하세요.\nEHOOK을 사용해주 셔서 감사합니다.\n\n스마트 블라인드 등록을 도와드리겠습니다. \n블라인드의 이름을 입력해주세요."
+            android:text="스마트 블라인드의 \n원활한 사용을 위해 \n간단한 측정을 수행하겠습니다. \n\n 스마트 블라인드의 \n 사용을 위한 블라인드를 \n 끝까지 올려주세요.  "
             android:textAlignment="center"
             android:textColor="@color/Main_Blue"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="블라인드 이름"
-            android:textAlignment="center"
-            android:textSize="14sp" />
-
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_NextStep"
             style="@android:style/Widget.Button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="34dp"
+            android:layout_marginBottom="131dp"
             android:background="@color/blue"
             android:elevation="0dp"
-            android:text="입력하였습니다."
+            android:text="끝까지 올렸습니다."
             android:textColor="@android:color/background_light"
             android:textSize="14sp"
             android:textStyle="bold" />

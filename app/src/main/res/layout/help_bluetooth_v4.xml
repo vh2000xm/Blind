@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_testStart"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="14dp"
+            android:text="측정 시작 버튼을 \n 클릭하시면 블라인드가 \n 내려가게 됩니다.\n\n 블라인드가 끝까지 내려가면 \n‘측정 종료’버튼을 클릭해주세요.\n\n 측정이 완료되면 다음을 클릭해주세요. "
+            android:textAlignment="center"
+            android:textColor="@color/Main_Blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_testStart"
+            style="@android:style/Widget.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_testStop"
+            android:layout_alignStart="@+id/btn_testStop"
+            android:layout_marginBottom="19dp"
+            android:background="@color/blue"
+            android:elevation="0dp"
+            android:text="측정 시작"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_testStop"
+            style="@android:style/Widget.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_testFinish"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="31dp"
+            android:background="@color/blue"
+            android:elevation="0dp"
+            android:text="측정 종료"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_testFinish"
+            style="@android:style/Widget.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/btn_testStop"
+            android:layout_marginBottom="41dp"
+            android:background="@color/Main_Blue"
+            android:elevation="0dp"
+            android:text="다음"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

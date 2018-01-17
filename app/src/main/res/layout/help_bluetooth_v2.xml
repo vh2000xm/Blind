@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/bluetooth_detect"
+            android:id="@+id/button"
             style="@android:style/Widget.Button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
