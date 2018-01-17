@@ -17,14 +17,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="129dp"
-            android:text="스마트 블라인드의 사용을 위해\n 블루투스 기기 연결을\n도와드리겠습니다.\n\n아래 스마트 블라인드\n탐지 버튼을 클릭해주세요."
+            android:text="@string/v2"
             android:textAlignment="center"
             android:textColor="@color/Main_Blue"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/bluetooth_detect"
             style="@android:style/Widget.Button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

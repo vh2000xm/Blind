@@ -17,14 +17,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="129dp"
-            android:text="스마트 블라인드\n 등록을 위한 설정이 끝났습니다.\n\nEHook과 함꼐\n스마트한 블라인드를 사용해주세요."
+            android:text="@string/v5"
             android:textAlignment="center"
             android:textColor="@color/Main_Blue"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_addroomFinish"
+            android:id="@+id/btn_helpFinish"
             style="@android:style/Widget.Button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

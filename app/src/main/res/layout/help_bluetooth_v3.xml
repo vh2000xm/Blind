@@ -17,7 +17,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="129dp"
-            android:text="스마트 블라인드의 \n원활한 사용을 위해 \n간단한 측정을 수행하겠습니다. \n\n 스마트 블라인드의 \n 사용을 위한 블라인드를 \n 끝까지 올려주세요.  "
+            android:text="@string/v3"
             android:textAlignment="center"
             android:textColor="@color/Main_Blue"
             android:textSize="18sp"

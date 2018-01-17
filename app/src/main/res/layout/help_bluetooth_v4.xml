@@ -17,7 +17,7 @@
             android:layout_above="@+id/btn_testStart"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="14dp"
-            android:text="측정 시작 버튼을 \n 클릭하시면 블라인드가 \n 내려가게 됩니다.\n\n 블라인드가 끝까지 내려가면 \n‘측정 종료’버튼을 클릭해주세요.\n\n 측정이 완료되면 다음을 클릭해주세요. "
+            android:text="@string/v4"
             android:textAlignment="center"
             android:textColor="@color/Main_Blue"
             android:textSize="18sp"
