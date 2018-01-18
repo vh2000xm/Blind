@@ -304,6 +304,7 @@ public class Help_Bluetooth_Activity extends Activity {
                     key = data.getStringExtra("device_address");
                     //txt_Result.setText(key);
                     btService.getDeviceInfo(data);
+                    Log.d(TAG, "Bluetooth key "+key);
                 }
                 break;
             case REQUEST_ENABLE_BT:
