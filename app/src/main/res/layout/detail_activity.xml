@@ -126,7 +126,7 @@
                 android:indeterminateTintMode="src_atop" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/txt_current_val"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"

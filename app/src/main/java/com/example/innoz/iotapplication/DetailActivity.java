@@ -33,14 +33,22 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * Bluetooth Movement
      **/
-    private static final String REQUEST_DOWN = "0|";
-    private static final String REQUEST_UP = "1|";
-    private static final String REQUEST_XX = "2|";
+    private static final String REQUEST_DOWN = "DOWN|";
+    private static final String REQUEST_UP = "UP|";
+    private static final String REQUEST_FULL_UP = "FU|";
+    private static final String REQUEST_FULL_DOWN = "FD|";
+
+
+    /**
+     * Internal Movement Value
+     **/
+    private int current_val =0;
 
     /**
      * Layout
      **/
     private TextView smalltext;
+    private TextView txt_current_value;
     public CircularProgressBar progressbar;
     private ImageButton btn_bot_bar;
     private ImageButton btn_up_arrow;
@@ -71,6 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         //Layout Init
         progressbar = (CircularProgressBar) findViewById(R.id.progressBar);
         smalltext = (TextView) findViewById(R.id.small_text);
+        txt_current_value = (TextView) findViewById(R.id.txt_current_val);
         btn_bot_bar = (ImageButton) findViewById(R.id.btn_bot_alram_bar);
         btn_up_arrow = (ImageButton) findViewById(R.id.btn_up_arrow);
         btn_down_arrow = (ImageButton) findViewById(R.id.btn_down_arrow);
@@ -80,7 +89,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Layout Setting
         smalltext.setText(getIntent().getExtras().getString("small_text"));
-        progressbar.setProgressWithAnimation(30);
+        progress_setting(current_val);
 
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
@@ -90,9 +99,8 @@ public class DetailActivity extends AppCompatActivity {
         btn_full_up.setOnClickListener(viewOnClickListener);
         btn_full_down.setOnClickListener(viewOnClickListener);
         //블루투스 연결 체크
-
-
     }
+
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
@@ -103,27 +111,38 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
                     break;
                 case R.id.btn_up_arrow:
+                    current_val += 10;
+                    progress_setting(current_val);
                     btService.write(REQUEST_UP.getBytes());
                     break;
                 case R.id.btn_down_arrow:
+                    current_val -= 10;
+                    progress_setting(current_val);
                     btService.write(REQUEST_DOWN.getBytes());
                     break;
                 case R.id.btn_full_open:
-                    BT_MSG = "FU|";
-                    btService.write(BT_MSG.getBytes());
+                    current_val = 100;
+                    progress_setting(current_val);
+                    btService.write(REQUEST_FULL_UP.getBytes());
                     break;
                 case R.id.btn_full_close:
-                    BT_MSG = "FC|";
-                    btService.write(BT_MSG.getBytes());
+                    current_val = 0;
+                    progress_setting(current_val);
+                    btService.write(REQUEST_FULL_DOWN.getBytes());
                     break;
 
                 default:
                     Log.d(TAG, "눌리면안되는 곳이 눌리고야 말았다.");
                     break;
-
             }
         }
     };
+
+    public void progress_setting(int current_val)
+    {
+        progressbar.setProgressWithAnimation(current_val);
+        txt_current_value.setText("  "+current_val+"%");
+    }
 
     @Override
     public void onResume() {
