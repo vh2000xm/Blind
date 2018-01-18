@@ -6,6 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.innoz.iotapplication.help_bluetooth.help_v1_Fragment;
+import com.example.innoz.iotapplication.help_bluetooth.help_v2_Fragment;
+import com.example.innoz.iotapplication.help_bluetooth.help_v3_Fragment;
+import com.example.innoz.iotapplication.help_bluetooth.help_v4_Fragment;
+import com.example.innoz.iotapplication.help_bluetooth.help_v5_Fragment;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -22,7 +33,7 @@ import java.util.ArrayList;
  * Created by Ahn on 2017-12-28.
  */
 
-public class Help_Bluetooth_Activity extends Activity {
+public class Help_Bluetooth_Activity extends FragmentActivity {
 
     private static final String TAG = "Help_Bluetooth_Activity";
 
@@ -42,8 +53,9 @@ public class Help_Bluetooth_Activity extends Activity {
     private SQLiteService dbHelper = null;
 
     /**
-     * Data Base
+     * Layout
      **/
+    ViewPager vp = null;
     Button btn_bluetooth;
     Button btn_name;
     Button btn_Next;
@@ -51,7 +63,13 @@ public class Help_Bluetooth_Activity extends Activity {
     Button btn_test_stop;
     Button btn_test_finish;
     Button btn_help_finish;
+    EditText Edit_Room_Name;
+
+    /**
+     * User_Data
+     **/
     public String key = null;
+    public String Room_Name = null;
 
 
     private final Handler mHandler = new Handler() {
@@ -67,6 +85,16 @@ public class Help_Bluetooth_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.help_bluetooth_main);
+
+        /** Sliding Layout **/
+        SlidingView sv = new SlidingView(this);
+
+        vp = (ViewPager)findViewById(R.id.vp);
+        vp.setAdapter(new pagerAdapter(getSupportFragmentManager()));
+        vp.setCurrentItem(0);
+
+
         /** Bluetooth Permision Check**/
         TedPermission.with(this)
                 .setPermissionListener(permissionlistener)
@@ -74,23 +102,6 @@ public class Help_Bluetooth_Activity extends Activity {
                 .setDeniedMessage("권한이 없을 경우 서비스를 이용할 수 없습니다. \n [설정] > [권한] 에서 권한을 허용할 수 있어요.")
                 .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
-
-
-        /** Sliding Layout **/
-        SlidingView sv = new SlidingView(this);
-
-        View v[] = new View[5];
-        v[0] = View.inflate(this, R.layout.help_bluetooth_v1, null);
-        v[1] = View.inflate(this, R.layout.help_bluetooth_v2, null);
-        v[2] = View.inflate(this, R.layout.help_bluetooth_v3, null);
-        v[3] = View.inflate(this, R.layout.help_bluetooth_v4, null);
-        v[4] = View.inflate(this, R.layout.help_bluetooth_v5, null);
-
-        for (int i = 0; i < 5; ++i)
-            sv.addView(v[i]);
-
-        setContentView(sv);
-
 
         /** Main Layout **/
         btn_bluetooth = (Button) findViewById(R.id.bluetooth_detect);
@@ -100,6 +111,10 @@ public class Help_Bluetooth_Activity extends Activity {
         btn_test_stop = (Button) findViewById(R.id.btn_testStop);
         btn_test_finish = (Button) findViewById(R.id.btn_testFinish);
         btn_help_finish = (Button) findViewById(R.id.btn_helpFinish);
+        Edit_Room_Name = (EditText) findViewById(R.id.edit_txt_Room_Name);
+
+
+        /** 버튼 메인에서 연동되는지 확인해보기 **/
 
         /** Listener **/
         btn_bluetooth.setOnClickListener(viewOnClickListener);
@@ -138,6 +153,39 @@ public class Help_Bluetooth_Activity extends Activity {
         }
     };
 
+
+    private class pagerAdapter extends FragmentPagerAdapter
+    {
+        public pagerAdapter(android.support.v4.app.FragmentManager fm)
+        {
+            super(fm);
+        }
+        @Override
+        public android.support.v4.app.Fragment getItem(int position)
+        {
+            switch(position)
+            {
+                case 0:
+                    return new help_v1_Fragment();
+                case 1:
+                    return new help_v2_Fragment();
+                case 2:
+                    return new help_v3_Fragment();
+                case 3:
+                    return new help_v4_Fragment();
+                case 4:
+                    return new help_v5_Fragment();
+                default:
+                    return null;
+            }
+        }
+        @Override
+        public int getCount()
+        {
+            return 5;
+        }
+    }
+
     /**
      * btn Click listener
      **/
@@ -148,10 +196,14 @@ public class Help_Bluetooth_Activity extends Activity {
             switch (id) {
 /**버튼 누르면 다음장 자동으로 넘어가게  SlidingView 클래스 수정할것.**/
                 case R.id.btn_nameok:
-                    if (btService.getDeviceState()) {
-                        btService.enableBluetooth();
-                    } else {
-                        finish();
+                    if(Edit_Room_Name.getText().toString().length() == 0)
+                    {
+                        Toast.makeText(Help_Bluetooth_Activity.this,"방이름을 입력해주세요",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Room_Name = Edit_Room_Name.getText().toString();
+                        Log.d(TAG,Room_Name);
                     }
                     break;
 
