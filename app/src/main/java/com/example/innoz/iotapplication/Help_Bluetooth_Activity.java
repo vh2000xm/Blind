@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Ahn on 2017-12-28.
@@ -55,6 +58,8 @@ public class Help_Bluetooth_Activity extends Activity {
      **/
     ViewPager vp = null;
     EditText Edit_Room_Name;
+    private static int current_page =0;
+
 
 //    Button btn_bluetooth;
 //    Button btn_Next;
@@ -69,6 +74,9 @@ public class Help_Bluetooth_Activity extends Activity {
      **/
     public String key = null;
     public String Room_Name = null;
+    public int tmp_counter =0;
+    public int blind_counter = 0;
+    public Timer timer = null;
 
 
     private final Handler mHandler = new Handler() {
@@ -87,7 +95,7 @@ public class Help_Bluetooth_Activity extends Activity {
         setContentView(R.layout.help_bluetooth_main);
         vp = (ViewPager) findViewById(R.id.vp);
         vp.setAdapter(new PagerAdapterClass(getApplicationContext()));
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(current_page);
 
 
         /** Bluetooth Permision Check**/
@@ -98,27 +106,6 @@ public class Help_Bluetooth_Activity extends Activity {
                 .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
-//        /** Main Layout **/
-//        btn_bluetooth = (Button) findViewById(R.id.bluetooth_detect);
-//
-//        btn_Next = (Button) findViewById(R.id.btn_NextStep);
-//        btn_test_start = (Button) findViewById(R.id.btn_testStart);
-//        btn_test_stop = (Button) findViewById(R.id.btn_testStop);
-//        btn_test_finish = (Button) findViewById(R.id.btn_testFinish);
-//        btn_help_finish = (Button) findViewById(R.id.btn_helpFinish);
-//
-//
-//        /** 버튼 메인에서 연동되는지 확인해보기 **/
-//
-//        /** Listener **/
-//        btn_bluetooth.setOnClickListener(viewOnClickListener);
-//        btn_name.setOnClickListener(viewOnClickListener);
-//        btn_Next.setOnClickListener(viewOnClickListener);
-//        btn_test_start.setOnClickListener(viewOnClickListener);
-//        btn_test_stop.setOnClickListener(viewOnClickListener);
-//        btn_test_finish.setOnClickListener(viewOnClickListener);
-//        btn_help_finish.setOnClickListener(viewOnClickListener);
-
         /** BT Service **/
         if (btService == null) {
             btService = new BluetoothService(this, mHandler);
@@ -128,6 +115,8 @@ public class Help_Bluetooth_Activity extends Activity {
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
+
+
     }
 
     /**
@@ -153,15 +142,20 @@ public class Help_Bluetooth_Activity extends Activity {
             int id = v.getId();
             switch (id) {
                 case R.id.btn_nameok:
-
-                    if(Edit_Room_Name.getText().toString().length() == 0)
+                    EditText Room_name = (EditText)findViewById(R.id.edit_txt_Room_Name);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); // 키보드 설정
+                    imm.showSoftInput(Room_name, 0); // Edit text 눌렀을때 키보드 나오기
+                    if(Room_name.getText().toString().length() == 0)
                     {
-                        Toast.makeText(Help_Bluetooth_Activity.this,"방이름을 입력해주세요",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Help_Bluetooth_Activity.this," 블라인드 이름을 입력해주세요",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Room_Name = Edit_Room_Name.getText().toString();
+                        Room_Name = Room_name.getText().toString();
                         Log.d(TAG,Room_Name);
+                        imm.hideSoftInputFromWindow(Room_name.getWindowToken(),0); // 키보드 내리기
+                        current_page++;
+                        vp.setCurrentItem(current_page);
                     }
                     break;
 
@@ -171,6 +165,47 @@ public class Help_Bluetooth_Activity extends Activity {
                     } else {
                         finish();
                     }
+
+                    break;
+
+                case R.id.btn_NextStep:
+                    vp.setCurrentItem(3);
+                    break;
+
+                case R.id.btn_testStart:
+                    final TimerTask blind_time = new TimerTask() {
+                        @Override
+                        public void run() {
+                            Log.e("카운터:", String.valueOf(tmp_counter));
+                            tmp_counter++;
+                        }
+                    };
+                    // 타이머 시작
+                    timer = new Timer();
+                    timer.schedule(blind_time, 0, 1000);
+                    break;
+
+                case R.id.btn_testStop:
+                    // 타이머 끝
+                    timer.cancel();
+                    blind_counter = tmp_counter;
+                    tmp_counter =0;
+                    break;
+
+                case R.id.btn_testFinish:
+                    vp.setCurrentItem(4);
+                    break;
+
+                case R.id.btn_helpFinish:
+                    // DB 에 데이터 넣기, 이것저것 데이터 검증하기.
+
+                    if (dbHelper == null) {
+                        dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+                    }
+                    break;
+
+                default:
+                    Log.d("HelpBlueTooth", String.valueOf(id) + "is clicked");
                     break;
             }
         }
@@ -245,6 +280,15 @@ public class Help_Bluetooth_Activity extends Activity {
         @Override public Parcelable saveState() { return null; }
         @Override public void startUpdate(View arg0) {}
         @Override public void finishUpdate(View arg0) {}
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        // Get the Camera instance as the activity achieves full user focus
+        Log.d(TAG, "help Bluetooth Resume");
+//        current_page =0;
+//        vp.setCurrentItem(current_page);
     }
 
     /**
