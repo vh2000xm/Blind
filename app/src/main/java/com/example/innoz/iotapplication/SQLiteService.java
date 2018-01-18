@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -11,6 +12,8 @@ import android.widget.Toast;
  */
 
 public class SQLiteService extends SQLiteOpenHelper {
+
+    private String TAG = "SQLiteService";
 
     private Context context;
 
@@ -50,6 +53,7 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
         db.execSQL("INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', '" + room_name + "', '" + current_per + "','" + max_value + "');");
+        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO VALUES(null, '" + address + "', '" + room_name + "', '" + current_per + "','" + max_value + "');");
         db.close();
     }
 
@@ -82,7 +86,7 @@ public class SQLiteService extends SQLiteOpenHelper {
 
     public int select_last() {
         SQLiteDatabase db = getWritableDatabase();
-        // 데이터베이스 모든 정보 삭제.
+        //마지막 번호 읽기
         int result;
         Cursor cursor = db.rawQuery("SELECT num FROM BLUETOOTH_INFO;", null);
         result = cursor.getInt(0);
@@ -106,7 +110,7 @@ public class SQLiteService extends SQLiteOpenHelper {
                     + "-방이름 "
                     + cursor.getInt(3)
                     + "-퍼센트"
-                    + cursor.getInt(3)
+                    + cursor.getInt(4)
                     + "-맥스\n";
         }
 

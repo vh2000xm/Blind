@@ -46,7 +46,14 @@ public class Help_Bluetooth_Activity extends Activity {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private static final int ADDROOM_FINISH = 1;
+    private String BT_MSG = null;
 
+    /**
+     * Bluetooth Movement
+     **/
+    private static final int REQUEST_DOWN= 0;
+    private static final int REQUEST_UP= 1;
+    private static final int REQUEST_XX= 2;
 
     /**
      * Data Base
@@ -183,6 +190,8 @@ public class Help_Bluetooth_Activity extends Activity {
                     // 타이머 시작
                     timer = new Timer();
                     timer.schedule(blind_time, 0, 1000);
+                    BT_MSG = "DOWN|";
+                    btService.write(BT_MSG.getBytes());
                     break;
 
                 case R.id.btn_testStop:
@@ -190,6 +199,8 @@ public class Help_Bluetooth_Activity extends Activity {
                     timer.cancel();
                     blind_counter = tmp_counter;
                     tmp_counter =0;
+                    BT_MSG = "STOP|";
+                    btService.write(BT_MSG.getBytes());
                     break;
 
                 case R.id.btn_testFinish:
@@ -198,10 +209,18 @@ public class Help_Bluetooth_Activity extends Activity {
 
                 case R.id.btn_helpFinish:
                     // DB 에 데이터 넣기, 이것저것 데이터 검증하기.
-
                     if (dbHelper == null) {
                         dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
                     }
+                    if(Room_Name != null && blind_counter !=0 && key !=null) {
+                        dbHelper.insert(key, Room_Name, 0, blind_counter);
+                        finish();
+                    }
+                    else
+                    {
+                        Toast.makeText(Help_Bluetooth_Activity.this,"뭔가 빠트리진 않았나요",Toast.LENGTH_SHORT).show();
+                    }
+
                     break;
 
                 default:
@@ -287,8 +306,6 @@ public class Help_Bluetooth_Activity extends Activity {
         super.onResume();  // Always call the superclass method first
         // Get the Camera instance as the activity achieves full user focus
         Log.d(TAG, "help Bluetooth Resume");
-//        current_page =0;
-//        vp.setCurrentItem(current_page);
     }
 
     /**
