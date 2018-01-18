@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.closedrawer:
                     mDrawerLayout.closeDrawers();
+                    dbHelper.delete_all();
                     break;
 
                 case R.id.btn_kitchen:
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_room1:
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", getString(R.string.small_room)));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", getString(R.string.small_room)).putExtra(EXTRA_DEVICE_ADDRESS, "20:17:01:05:58:33"));
                     break;
 
                 case R.id.btn_livingroom:

@@ -21,13 +21,26 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 public class DetailActivity extends AppCompatActivity {
 
     static final String TAG = "DetailActivity";
-    private TextView smalltext;
+
+
+    /**
+     * Bluetooth Service
+     **/
     private BluetoothService btService = null;
     private String Blutooth_address = null;
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private String BT_MSG = null;
+    /**
+     * Bluetooth Movement
+     **/
+    private static final String REQUEST_DOWN = "0|";
+    private static final String REQUEST_UP = "1|";
+    private static final String REQUEST_XX = "2|";
 
-    //Layout
+    /**
+     * Layout
+     **/
+    private TextView smalltext;
     public CircularProgressBar progressbar;
     private ImageButton btn_bot_bar;
     private ImageButton btn_up_arrow;
@@ -52,7 +65,7 @@ public class DetailActivity extends AppCompatActivity {
             btService = new BluetoothService(this, mHandler);
         }
 
-//        Log.d(TAG, getIntent().getExtras().getString("small_text"));
+        Log.d(TAG, getIntent().getExtras().getString("small_text"));
 //        Log.d(TAG, getIntent().getExtras().getString(EXTRA_DEVICE_ADDRESS));
 
         //Layout Init
@@ -66,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         Blutooth_address = getIntent().getExtras().getString("address");
 
         //Layout Setting
-//        smalltext.setText(getIntent().getExtras().getString("small_text"));
+        smalltext.setText(getIntent().getExtras().getString("small_text"));
         progressbar.setProgressWithAnimation(30);
 
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
@@ -90,12 +103,10 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
                     break;
                 case R.id.btn_up_arrow:
-                    BT_MSG = "UP|";
-                    btService.write(BT_MSG.getBytes());
+                    btService.write(REQUEST_UP.getBytes());
                     break;
                 case R.id.btn_down_arrow:
-                    BT_MSG = "DOWN|";
-                    btService.write(BT_MSG.getBytes());
+                    btService.write(REQUEST_DOWN.getBytes());
                     break;
                 case R.id.btn_full_open:
                     BT_MSG = "FU|";
