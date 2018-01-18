@@ -57,7 +57,7 @@ public class Help_Bluetooth_Activity extends FragmentActivity {
      **/
     ViewPager vp = null;
     Button btn_bluetooth;
-    Button btn_name;
+
     Button btn_Next;
     Button btn_test_start;
     Button btn_test_stop;
@@ -103,27 +103,27 @@ public class Help_Bluetooth_Activity extends FragmentActivity {
                 .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
-        /** Main Layout **/
-        btn_bluetooth = (Button) findViewById(R.id.bluetooth_detect);
-        btn_name = (Button) findViewById(R.id.btn_nameok);
-        btn_Next = (Button) findViewById(R.id.btn_NextStep);
-        btn_test_start = (Button) findViewById(R.id.btn_testStart);
-        btn_test_stop = (Button) findViewById(R.id.btn_testStop);
-        btn_test_finish = (Button) findViewById(R.id.btn_testFinish);
-        btn_help_finish = (Button) findViewById(R.id.btn_helpFinish);
-        Edit_Room_Name = (EditText) findViewById(R.id.edit_txt_Room_Name);
-
-
-        /** 버튼 메인에서 연동되는지 확인해보기 **/
-
-        /** Listener **/
-        btn_bluetooth.setOnClickListener(viewOnClickListener);
-        btn_name.setOnClickListener(viewOnClickListener);
-        btn_Next.setOnClickListener(viewOnClickListener);
-        btn_test_start.setOnClickListener(viewOnClickListener);
-        btn_test_stop.setOnClickListener(viewOnClickListener);
-        btn_test_finish.setOnClickListener(viewOnClickListener);
-        btn_help_finish.setOnClickListener(viewOnClickListener);
+//        /** Main Layout **/
+//        btn_bluetooth = (Button) findViewById(R.id.bluetooth_detect);
+//
+//        btn_Next = (Button) findViewById(R.id.btn_NextStep);
+//        btn_test_start = (Button) findViewById(R.id.btn_testStart);
+//        btn_test_stop = (Button) findViewById(R.id.btn_testStop);
+//        btn_test_finish = (Button) findViewById(R.id.btn_testFinish);
+//        btn_help_finish = (Button) findViewById(R.id.btn_helpFinish);
+//        Edit_Room_Name = (EditText) findViewById(R.id.edit_txt_Room_Name);
+//
+//
+//        /** 버튼 메인에서 연동되는지 확인해보기 **/
+//
+//        /** Listener **/
+//        btn_bluetooth.setOnClickListener(viewOnClickListener);
+//        btn_name.setOnClickListener(viewOnClickListener);
+//        btn_Next.setOnClickListener(viewOnClickListener);
+//        btn_test_start.setOnClickListener(viewOnClickListener);
+//        btn_test_stop.setOnClickListener(viewOnClickListener);
+//        btn_test_finish.setOnClickListener(viewOnClickListener);
+//        btn_help_finish.setOnClickListener(viewOnClickListener);
 
         /** BT Service **/
         if (btService == null) {
@@ -185,6 +185,15 @@ public class Help_Bluetooth_Activity extends FragmentActivity {
             return 5;
         }
     }
+
+    private static View.OnClickListener mButtonClick = new View.OnClickListener(){
+        public void onClick(View v){
+            switch(v.getId())
+            {
+
+            }
+        }
+    };
 
     /**
      * btn Click listener
