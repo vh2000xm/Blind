@@ -33,10 +33,10 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * Bluetooth Movement
      **/
-    private static final String REQUEST_DOWN = "DOWN|";
-    private static final String REQUEST_UP = "UP|";
-    private static final String REQUEST_FULL_UP = "FU|";
-    private static final String REQUEST_FULL_DOWN = "FD|";
+    private static final String REQUEST_DOWN = "DO";
+    private static final String REQUEST_UP = "UP";
+    private static final String REQUEST_FULL_UP = "FU";
+    private static final String REQUEST_FULL_DOWN = "FD";
 
 
     /**
@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * Layout
      **/
-    private TextView smalltext;
+     private TextView smalltext;
     private TextView txt_current_value;
     public CircularProgressBar progressbar;
     private ImageButton btn_bot_bar;
@@ -110,25 +110,33 @@ public class DetailActivity extends AppCompatActivity {
                 case R.id.btn_bot_alram_bar:
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
                     break;
+
                 case R.id.btn_up_arrow:
                     current_val += 10;
                     progress_setting(current_val);
-                    btService.write(REQUEST_UP.getBytes());
+                    BT_Send(REQUEST_UP,3);
                     break;
+
                 case R.id.btn_down_arrow:
                     current_val -= 10;
-                    progress_setting(current_val);
-                    btService.write(REQUEST_DOWN.getBytes());
+                    if(current_val < 0)
+                        current_val =0;
+                    else {
+                        progress_setting(current_val);
+                        BT_Send(REQUEST_DOWN, 3);
+                    }
                     break;
+
                 case R.id.btn_full_open:
                     current_val = 100;
                     progress_setting(current_val);
-                    btService.write(REQUEST_FULL_UP.getBytes());
+                    BT_Send(REQUEST_FULL_UP,10);
                     break;
+
                 case R.id.btn_full_close:
                     current_val = 0;
                     progress_setting(current_val);
-                    btService.write(REQUEST_FULL_DOWN.getBytes());
+                    BT_Send(REQUEST_FULL_DOWN,10);
                     break;
 
                 default:
@@ -137,6 +145,14 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void BT_Send(String send_data, int time)
+    {
+        String direction = send_data;
+        int running_time = time;
+        String Send_value = direction +":"+ running_time + "|";
+        btService.write(Send_value.getBytes());
+    }
 
     public void progress_setting(int current_val)
     {
