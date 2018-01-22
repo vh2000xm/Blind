@@ -84,12 +84,14 @@ public class SQLiteService extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int select_last() {
+    public String select_last() {
         SQLiteDatabase db = getWritableDatabase();
         //마지막 번호 읽기
-        int result;
-        Cursor cursor = db.rawQuery("SELECT num FROM BLUETOOTH_INFO;", null);
-        result = cursor.getInt(0);
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT * FROM BLUETOOTH_INFO ORDER BY NUM DESC LIMIT 1", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getInt(0);
+        }
         db.close();
         return  result;
     }

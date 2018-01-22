@@ -7,5 +7,6 @@
     <color name="blue">#6ba9e6</color>
     <color name="progress_back">#f4f3f3</color>
     <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
 
 </resources>

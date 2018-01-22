@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public String TAG = "MainActivity";
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private SQLiteService dbHelper = null;
+    public String button_num;
 
 
     @Override
@@ -33,7 +34,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerView = (View) findViewById(R.id.drawer);
-        Set_Layout(2);
+
+        if (dbHelper == null) {
+            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+        }
+        Log.d(TAG, "db value : " + dbHelper.getResult());
+
+        button_num = dbHelper.select_last();
+
+        Log.d(TAG, "Button _Num :" + button_num);
+        Set_Layout(Integer.parseInt(button_num));
 
 
         // db 값 읽어서 동적생성
@@ -55,10 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonCloseDrawer = (Button) findViewById(R.id.closedrawer);
 //        buttonCloseDrawer.setOnClickListener(viewOnClickListener);
 
-        if (dbHelper == null) {
-            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
-        }
-        Log.d(TAG, "db value : " + dbHelper.getResult());
+
     }
 
     @Override
@@ -160,13 +167,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    void Set_Layout(int line) {
+    void Set_Layout(int button_num) {
+        boolean lest_btn = false;
+        int btn_cnt = 2;
+        int line = btn_cnt / 2;
+        boolean btn_per_line = false;
         TableLayout tableLayout = (TableLayout) findViewById(R.id.layout_table);
         TableRow.LayoutParams rowLayout = new TableRow.LayoutParams();
-        TableRow row[] = new TableRow[7];
-        ImageButton btn[] = new ImageButton[7];
-        FrameLayout frame[] = new FrameLayout[7];
-        TextView txt[] = new TextView[7];
+        TableRow row[] = new TableRow[(btn_cnt / 2) + 1];
+        ImageButton btn[] = new ImageButton[btn_cnt + 1];
+        FrameLayout frame[] = new FrameLayout[btn_cnt + 1];
+        TextView txt[] = new TextView[btn_cnt + 1];
+
+        if (btn_cnt % 2 == 1) {
+            lest_btn = true;
+        }
 
         for (int tr = 0; tr < line; tr++) {
             row[tr] = new TableRow(this);
@@ -186,10 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 frame[td].setForegroundGravity(Gravity.CENTER);
 //                frame[td].setLayoutParams(new TableRow.LayoutParams(400,390,TableRow.LayoutParams.WRAP_CONTENT));
                 frame[td].setVisibility(View.VISIBLE);
-                frame[td].setPadding(10,10,10,10);
-
-
-
+                frame[td].setPadding(10, 10, 10, 10);
 
                 btn[td] = new ImageButton(this);
                 btn[td].setBackgroundResource(R.drawable.sample_room);
@@ -197,34 +209,154 @@ public class MainActivity extends AppCompatActivity {
 //                        0,
 //                        TableRow.LayoutParams.WRAP_CONTENT,
 //                        1));
-                btn[td].setLayoutParams(new TableRow.LayoutParams(380,370,TableRow.LayoutParams.WRAP_CONTENT));
+                btn[td].setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
                 btn[td].setScaleType(ImageButton.ScaleType.FIT_CENTER);
                 btn[td].setVisibility(View.VISIBLE);
-                btn[td].setPadding(0,0,0,0);
+                btn[td].setPadding(0, 0, 0, 0);
                 btn[td].setAdjustViewBounds(true);
                 btn[td].setOnClickListener(viewOnClickListener);
                 // Image Button Param Set
-
-
                 txt[td] = new TextView(this);
                 txt[td].setText("침실");
                 txt[td].setTextColor(R.color.Main_Blue);
                 txt[td].setTextSize(20);
                 txt[td].setGravity(Gravity.CENTER);
 //                txt[td].setGravity(Gravity.BOTTOM);
-                txt[td].setPadding(0,220,0,0);
+                txt[td].setPadding(0, 220, 0, 0);
                 txt[td].setVisibility(View.VISIBLE);
-
-
                 frame[td].addView(btn[td]);
                 frame[td].addView(txt[td]);
                 row[tr].addView(frame[td]);
 //                setContentView(row[td]);
 //                row[tr].addView(txt[td]);
-
             }
             tableLayout.addView(row[tr]);
         }
+        if (lest_btn) {
+            TableRow last_row = null;
+            FrameLayout last_btn_frame =null;
+            ImageButton last_btn = null;
+            TextView last_text = null;
+            last_row= new TableRow(this);
+            last_row.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    0,
+                    1));
+            last_row.setGravity(Gravity.CENTER);
+
+            last_btn_frame = new FrameLayout(this);
+            last_btn_frame.setForegroundGravity(Gravity.CENTER);
+            last_btn_frame.setVisibility(View.VISIBLE);
+            last_btn_frame.setPadding(10, 10, 10, 10);
+
+            last_btn = new ImageButton(this);
+            last_btn.setBackgroundResource(R.drawable.sample_room);
+            last_btn.setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
+            last_btn.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+            last_btn.setVisibility(View.VISIBLE);
+            last_btn.setPadding(0, 0, 0, 0);
+            last_btn.setAdjustViewBounds(true);
+            last_btn.setOnClickListener(viewOnClickListener);
+            // Image Button Param Set
+
+            last_text = new TextView(this);
+            last_text.setText("침실");
+            last_text.setTextColor(R.color.Main_Blue);
+            last_text.setTextSize(20);
+            last_text.setGravity(Gravity.CENTER);
+//                txt[td].setGravity(Gravity.BOTTOM);
+            last_text.setPadding(0, 220, 0, 0);
+            last_text.setVisibility(View.VISIBLE);
+
+            last_btn_frame.addView(last_btn);
+            last_btn_frame.addView(last_text);
+
+
+            //////////////////
+
+            FrameLayout addroom_frame = null;
+            ImageButton addroom_btn = null;
+
+            addroom_frame = new FrameLayout(this);
+            addroom_frame.setForegroundGravity(Gravity.CENTER);
+            addroom_frame.setVisibility(View.VISIBLE);
+            addroom_frame.setPadding(10, 10, 10, 10);
+
+            addroom_btn = new ImageButton(this);
+            addroom_btn.setBackgroundResource(R.drawable.add_room);
+            addroom_btn.setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
+            addroom_btn.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+            addroom_btn.setVisibility(View.VISIBLE);
+            addroom_btn.setPadding(0, 0, 0, 0);
+            addroom_btn.setAdjustViewBounds(true);
+            addroom_btn.setOnClickListener(viewOnClickListener);
+            // Image Button Param Set
+
+            addroom_frame.addView(addroom_btn);
+            last_row.addView(last_btn_frame);
+            last_row.addView(addroom_frame);
+
+            tableLayout.addView(last_row);
+        }
+
+        else
+        {
+            TableRow last_row = null;
+            FrameLayout addroom_frame = null;
+            ImageButton addroom_btn = null;
+
+            addroom_frame = new FrameLayout(this);
+            addroom_frame.setForegroundGravity(Gravity.CENTER);
+            addroom_frame.setVisibility(View.VISIBLE);
+            addroom_frame.setPadding(10, 10, 10, 10);
+
+            addroom_btn = new ImageButton(this);
+            addroom_btn.setBackgroundResource(R.drawable.add_room);
+            addroom_btn.setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
+            addroom_btn.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+            addroom_btn.setVisibility(View.VISIBLE);
+            addroom_btn.setPadding(0, 0, 0, 0);
+            addroom_btn.setAdjustViewBounds(true);
+            addroom_btn.setOnClickListener(viewOnClickListener);
+            // Image Button Param Set
+
+
+
+            ///////////////
+
+            FrameLayout last_btn_frame =null;
+            ImageButton last_btn = null;
+            TextView last_text = null;
+            last_row= new TableRow(this);
+            last_row.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    0,
+                    1));
+            last_row.setGravity(Gravity.CENTER);
+
+            last_btn_frame = new FrameLayout(this);
+            last_btn_frame.setForegroundGravity(Gravity.CENTER);
+            last_btn_frame.setVisibility(View.VISIBLE);
+            last_btn_frame.setPadding(10, 10, 10, 10);
+            last_btn_frame.setVisibility(View.INVISIBLE);
+
+            last_btn = new ImageButton(this);
+            //last_btn.setBackgroundResource(R.drawable.sample_room);
+            last_btn.setBackgroundColor(R.color.white);
+            last_btn.setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
+            last_btn.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+            last_btn.setVisibility(View.VISIBLE);
+            last_btn.setPadding(0, 0, 0, 0);
+            last_btn.setAdjustViewBounds(true);
+            last_btn.setOnClickListener(viewOnClickListener);
+            // Image Button Param Set
+            last_btn_frame.addView(last_btn);
+            addroom_frame.addView(addroom_btn);
+            last_row.addView(addroom_frame);
+            last_row.addView(last_btn_frame);
+            tableLayout.addView(last_row);
+        }
+
         TableRow margin_row = new TableRow(this);
         margin_row.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
@@ -235,8 +367,8 @@ public class MainActivity extends AppCompatActivity {
 
     void dbcheck(SQLiteService dbHelper) {
         int last_num;
-        last_num = dbHelper.select_last();
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.layout_table);
+        //last_num = dbHelper.select_last();
+        //TableLayout tableLayout = (TableLayout) findViewById(R.id.layout_table);
 
         // num 개수에 따라 ROW 개수 설정하기..
 //        if(last_num % 2 == 0) {
