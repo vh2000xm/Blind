@@ -48,20 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         // db 값 읽어서 동적생성
 
-//        btn_smallroom = (ImageButton) findViewById(R.id.btn_room1);
-//        btn_sidemenu = (ImageButton) findViewById(R.id.btn_sidemenu);
-//        btn_kitchen = (ImageButton) findViewById(R.id.btn_kitchen);
-//        btn_mainroom = (ImageButton) findViewById(R.id.btn_livingroom);
-//        btn_addroom = (ImageButton) findViewById(R.id.btn_addroom);
-//
-//
-//        btn_smallroom.setOnClickListener(viewOnClickListener);
-//        btn_sidemenu.setOnClickListener(viewOnClickListener);
-//        btn_kitchen.setOnClickListener(viewOnClickListener);
-//        btn_mainroom.setOnClickListener(viewOnClickListener);
-//        btn_addroom.setOnClickListener(viewOnClickListener);
-
-
         Button buttonCloseDrawer = (Button) findViewById(R.id.closedrawer);
 //        buttonCloseDrawer.setOnClickListener(viewOnClickListener);
 
@@ -76,19 +62,6 @@ public class MainActivity extends AppCompatActivity {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
         Log.d(TAG, "db value : " + dbHelper.getResult());
-//        dbcheck(dbHelper);
-
-//        String device_address;
-//        String room_name;
-//        // Shared Preferences 값 불러오기
-//        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-//        device_address = pref.getString("address", "");
-//        room_name = pref.getString("room_name", "");
-//        /// shred preference check
-//        if (device_address != null && room_name != null) {
-//            Log.d(TAG, "device address : " + device_address);
-//            Log.d(TAG, "Room_Name : " + room_name);
-//        }
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
@@ -104,7 +77,15 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            int id = v.getId();
+            switch (id) {
+                case R.id.btn_sidemenu:
+                    mDrawerLayout.openDrawer(drawerView);
+                    break;
+                case R.id.closedrawer:
+                    mDrawerLayout.closeDrawers();
+                    break;
+            }
         }
     };
 //
@@ -202,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 //                frame[td].setLayoutParams(new TableRow.LayoutParams(400,390,TableRow.LayoutParams.WRAP_CONTENT));
                 frame[td].setVisibility(View.VISIBLE);
                 frame[td].setPadding(10, 10, 10, 10);
-
                 btn[td] = new ImageButton(this);
                 btn[td].setBackgroundResource(R.drawable.sample_room);
 //                btn[td].setLayoutParams(new TableRow.LayoutParams(
@@ -214,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 btn[td].setVisibility(View.VISIBLE);
                 btn[td].setPadding(0, 0, 0, 0);
                 btn[td].setAdjustViewBounds(true);
+                btn[td].setId((tr*td)+1);
                 btn[td].setOnClickListener(viewOnClickListener);
                 // Image Button Param Set
                 txt[td] = new TextView(this);

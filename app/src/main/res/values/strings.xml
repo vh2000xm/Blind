@@ -36,6 +36,7 @@
     <string name="living_room">거실</string>
     <string name="kichen">주방</string>
     <string name="small_room">작은방</string>
+    <string name="add_room">작은방</string>
 
     <!-- Help text-->
     <string name="v1">안녕하세요.\nEHOOK을 사용해주셔서 감사합니다.\n\n스마트 블라인드 등록을 도와드리겠습니다. \n블라인드의 이름을 입력해주세요.</string>
