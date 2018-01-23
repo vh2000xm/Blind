@@ -201,7 +201,7 @@
                     android:layout_marginBottom="10dp">
 
                     <ImageButton
-                        android:id="@+id/imageButton8"
+                        android:id="@+id/btn_25per"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_alignParentStart="true"
@@ -212,34 +212,34 @@
                         app:srcCompat="@drawable/btn_25per" />
 
                     <ImageButton
-                        android:id="@+id/imageButton7"
+                        android:id="@+id/btn_50per"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="12dp"
-                        android:layout_toEndOf="@+id/imageButton8"
+                        android:layout_toEndOf="@+id/btn_25per"
                         android:background="@android:color/transparent"
                         android:scaleType="fitStart"
                         app:srcCompat="@drawable/btn_50per" />
 
                     <ImageButton
-                        android:id="@+id/imageButton6"
+                        android:id="@+id/btn_75per"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="16dp"
-                        android:layout_toEndOf="@+id/imageButton7"
+                        android:layout_toEndOf="@+id/btn_50per"
                         android:background="@android:color/transparent"
                         android:scaleType="fitStart"
                         app:srcCompat="@drawable/btn_75per" />
 
                     <ImageButton
-                        android:id="@+id/imageButton5"
+                        android:id="@+id/btn_user_setting"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="12dp"
-                        android:layout_toEndOf="@+id/imageButton6"
+                        android:layout_toEndOf="@+id/btn_75per"
                         android:background="@android:color/transparent"
                         android:scaleType="fitStart"
                         app:srcCompat="@drawable/btn_userset" />

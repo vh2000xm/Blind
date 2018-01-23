@@ -2,12 +2,14 @@ package com.example.innoz.iotapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -25,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public String TAG = "MainActivity";
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private SQLiteService dbHelper = null;
-    public String button_num;
+    public String first_button_num, last_button_num;
+    public boolean draw_check = false;
 
 
     @Override
@@ -40,18 +43,22 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG, "db value : " + dbHelper.getResult());
 
-        button_num = dbHelper.select_last();
+//        if (dbHelper.select_last() == "" || dbHelper.select_first() == "") {
+//            Set_Layout(0, 0, false);
+//
+//        } else {
+//            first_button_num = dbHelper.select_first();
+//            last_button_num = dbHelper.select_last();
+//            Set_Layout(Integer.parseInt(first_button_num), Integer.parseInt(last_button_num), true);
+//        }
 
-        Log.d(TAG, "Button _Num :" + button_num);
-        Set_Layout(Integer.parseInt(button_num));
-
-
+        Log.d(TAG, "Button _Num :" + last_button_num);
         // db 값 읽어서 동적생성
 
         Button buttonCloseDrawer = (Button) findViewById(R.id.closedrawer);
-//        buttonCloseDrawer.setOnClickListener(viewOnClickListener);
-
-
+        btn_sidemenu = (ImageButton) findViewById(R.id.btn_sidemenu);
+        btn_sidemenu.setOnClickListener(viewOnClickListener);
+        buttonCloseDrawer.setOnClickListener(viewOnClickListener);
     }
 
     @Override
@@ -60,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Main Resume");
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+        }
+        clear();
+        if (dbHelper.select_last() == "" || dbHelper.select_first() == "") {
+            Set_Layout(0, 0, false);
+
+        } else {
+            first_button_num = dbHelper.select_first();
+            last_button_num = dbHelper.select_last();
+            Set_Layout(Integer.parseInt(first_button_num), Integer.parseInt(last_button_num), true);
         }
         Log.d(TAG, "db value : " + dbHelper.getResult());
     }
@@ -78,12 +94,43 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             int id = v.getId();
+            String detail_value = null;
+//            if(id != 999 )
+//            {
+//
+//            }
+
             switch (id) {
                 case R.id.btn_sidemenu:
                     mDrawerLayout.openDrawer(drawerView);
                     break;
                 case R.id.closedrawer:
+                    dbHelper.delete_all();
                     mDrawerLayout.closeDrawers();
+                    clear();
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(getIntent());
+                    overridePendingTransition(0, 0);
+                    break;
+                case 999:
+                    startActivity(new Intent(MainActivity.this, Help_Bluetooth_Activity.class));
+                    clear();
+                    break;
+
+                default:
+                    detail_value = dbHelper.getDetail_Result(id);
+                    Log.d(TAG, detail_value);
+                    String address = detail_value.split("\\|")[1];
+                    Log.d(TAG, "address :" + address);
+
+                    String room_name = detail_value.split("\\|")[2];
+                    int current_value = Integer.parseInt(detail_value.split("\\|")[3]);
+                    int max_value = Integer.parseInt(detail_value.split("\\|")[4]);
+
+                    Log.d(TAG, "room_name : " + room_name);
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", room_name)
+                            .putExtra(EXTRA_DEVICE_ADDRESS, address).putExtra("current_val",current_value).putExtra("max_value",max_value));
                     break;
             }
         }
@@ -121,6 +168,13 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    };
 
+
+    public void clear()
+    {
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.layout_table);
+        tableLayout.removeAllViews();
+
+    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -148,9 +202,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    void Set_Layout(int button_num) {
+    void Set_Layout(int first, int last_button_num, boolean check) {
         boolean lest_btn = false;
-        int btn_cnt = 2;
+        int btn_cnt = 0;
+        if (check) {
+            btn_cnt = (last_button_num - first) + 1;
+        } else {
+            btn_cnt = 0;
+        }
+        int btn_id = first;
         int line = btn_cnt / 2;
         boolean btn_per_line = false;
         TableLayout tableLayout = (TableLayout) findViewById(R.id.layout_table);
@@ -194,11 +254,11 @@ public class MainActivity extends AppCompatActivity {
                 btn[td].setVisibility(View.VISIBLE);
                 btn[td].setPadding(0, 0, 0, 0);
                 btn[td].setAdjustViewBounds(true);
-                btn[td].setId((tr*td)+1);
+                btn[td].setId(btn_id);
                 btn[td].setOnClickListener(viewOnClickListener);
                 // Image Button Param Set
                 txt[td] = new TextView(this);
-                txt[td].setText("침실");
+                txt[td].setText(dbHelper.get_room_name(btn_id));
                 txt[td].setTextColor(R.color.Main_Blue);
                 txt[td].setTextSize(20);
                 txt[td].setGravity(Gravity.CENTER);
@@ -210,15 +270,16 @@ public class MainActivity extends AppCompatActivity {
                 row[tr].addView(frame[td]);
 //                setContentView(row[td]);
 //                row[tr].addView(txt[td]);
+                btn_id++;
             }
             tableLayout.addView(row[tr]);
         }
         if (lest_btn) {
             TableRow last_row = null;
-            FrameLayout last_btn_frame =null;
+            FrameLayout last_btn_frame = null;
             ImageButton last_btn = null;
             TextView last_text = null;
-            last_row= new TableRow(this);
+            last_row = new TableRow(this);
             last_row.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
                     0,
@@ -237,11 +298,12 @@ public class MainActivity extends AppCompatActivity {
             last_btn.setVisibility(View.VISIBLE);
             last_btn.setPadding(0, 0, 0, 0);
             last_btn.setAdjustViewBounds(true);
+            last_btn.setId(last_button_num);
             last_btn.setOnClickListener(viewOnClickListener);
             // Image Button Param Set
 
             last_text = new TextView(this);
-            last_text.setText("침실");
+            last_text.setText(dbHelper.get_room_name(last_button_num));
             last_text.setTextColor(R.color.Main_Blue);
             last_text.setTextSize(20);
             last_text.setGravity(Gravity.CENTER);
@@ -270,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
             addroom_btn.setVisibility(View.VISIBLE);
             addroom_btn.setPadding(0, 0, 0, 0);
             addroom_btn.setAdjustViewBounds(true);
+            addroom_btn.setId(999);
             addroom_btn.setOnClickListener(viewOnClickListener);
             // Image Button Param Set
 
@@ -278,10 +341,7 @@ public class MainActivity extends AppCompatActivity {
             last_row.addView(addroom_frame);
 
             tableLayout.addView(last_row);
-        }
-
-        else
-        {
+        } else {
             TableRow last_row = null;
             FrameLayout addroom_frame = null;
             ImageButton addroom_btn = null;
@@ -298,17 +358,17 @@ public class MainActivity extends AppCompatActivity {
             addroom_btn.setVisibility(View.VISIBLE);
             addroom_btn.setPadding(0, 0, 0, 0);
             addroom_btn.setAdjustViewBounds(true);
+            addroom_btn.setId(999);
             addroom_btn.setOnClickListener(viewOnClickListener);
             // Image Button Param Set
 
 
-
             ///////////////
 
-            FrameLayout last_btn_frame =null;
+            FrameLayout last_btn_frame = null;
             ImageButton last_btn = null;
             TextView last_text = null;
-            last_row= new TableRow(this);
+            last_row = new TableRow(this);
             last_row.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
                     0,
@@ -317,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
             last_btn_frame = new FrameLayout(this);
             last_btn_frame.setForegroundGravity(Gravity.CENTER);
-            last_btn_frame.setVisibility(View.VISIBLE);
+            last_btn_frame.setVisibility(View.INVISIBLE);
             last_btn_frame.setPadding(10, 10, 10, 10);
             last_btn_frame.setVisibility(View.INVISIBLE);
 
@@ -326,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
             last_btn.setBackgroundColor(R.color.white);
             last_btn.setLayoutParams(new TableRow.LayoutParams(380, 370, TableRow.LayoutParams.WRAP_CONTENT));
             last_btn.setScaleType(ImageButton.ScaleType.FIT_CENTER);
-            last_btn.setVisibility(View.VISIBLE);
+            last_btn.setVisibility(View.INVISIBLE);
             last_btn.setPadding(0, 0, 0, 0);
             last_btn.setAdjustViewBounds(true);
             last_btn.setOnClickListener(viewOnClickListener);

@@ -190,7 +190,7 @@ public class Help_Bluetooth_Activity extends Activity {
                     // 타이머 시작
                     timer = new Timer();
                     timer.schedule(blind_time, 0, 1000);
-                    BT_MSG = "DOWN|";
+                    BT_MSG = "DOWN:"+String.format("%04d",0)+"|";
                     btService.write(BT_MSG.getBytes());
                     break;
 
@@ -199,7 +199,7 @@ public class Help_Bluetooth_Activity extends Activity {
                     timer.cancel();
                     blind_counter = tmp_counter;
                     tmp_counter =0;
-                    BT_MSG = "STOP|";
+                    BT_MSG = "ST:"+String.format("%04d",0)+"|";
                     btService.write(BT_MSG.getBytes());
                     break;
 
@@ -213,14 +213,14 @@ public class Help_Bluetooth_Activity extends Activity {
                         dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
                     }
                     if(Room_Name != null && blind_counter !=0 && key !=null) {
-                        dbHelper.insert(key, Room_Name, 0, blind_counter);
+                        dbHelper.insert(key, Room_Name, 0, blind_counter*100);
+                        btService.stop();
                         finish();
                     }
                     else
                     {
                         Toast.makeText(Help_Bluetooth_Activity.this,"뭔가 빠트리진 않았나요",Toast.LENGTH_SHORT).show();
                     }
-
                     break;
 
                 default:
@@ -322,6 +322,9 @@ public class Help_Bluetooth_Activity extends Activity {
                     //txt_Result.setText(key);
                     btService.getDeviceInfo(data);
                     Log.d(TAG, "Bluetooth key "+key);
+                    Toast.makeText(Help_Bluetooth_Activity.this,"연결되었습니다.",Toast.LENGTH_SHORT).show();
+                    vp.setCurrentItem(2);
+
                 }
                 break;
             case REQUEST_ENABLE_BT:

@@ -42,11 +42,17 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * Internal Movement Value
      **/
+
+    private SQLiteService dbHelper = null;
     private int current_val =0;
+    private int max_vlaue =0;
+    private String room_name = null;
+
 
     /**
      * Layout
      **/
+    private  int progress =0;
      private TextView smalltext;
     private TextView txt_current_value;
     public CircularProgressBar progressbar;
@@ -55,6 +61,11 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton btn_down_arrow;
     private ImageButton btn_full_up;
     private ImageButton btn_full_down;
+    private  ImageButton btn_25per;
+    private  ImageButton btn_50per;
+    private  ImageButton btn_75per;
+
+
 
     private final Handler mHandler = new Handler() {
 
@@ -72,6 +83,9 @@ public class DetailActivity extends AppCompatActivity {
         if (btService == null) {
             btService = new BluetoothService(this, mHandler);
         }
+        if (dbHelper == null) {
+            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+        }
 
         Log.d(TAG, getIntent().getExtras().getString("small_text"));
 //        Log.d(TAG, getIntent().getExtras().getString(EXTRA_DEVICE_ADDRESS));
@@ -85,11 +99,30 @@ public class DetailActivity extends AppCompatActivity {
         btn_down_arrow = (ImageButton) findViewById(R.id.btn_down_arrow);
         btn_full_up = (ImageButton) findViewById(R.id.btn_full_open);
         btn_full_down = (ImageButton) findViewById(R.id.btn_full_close);
+        btn_25per = (ImageButton) findViewById(R.id.btn_25per);
+        btn_50per = (ImageButton) findViewById(R.id.btn_50per);
+        btn_75per = (ImageButton) findViewById(R.id.btn_75per);
+
         Blutooth_address = getIntent().getExtras().getString("address");
 
+
+
         //Layout Setting
+        current_val = getIntent().getExtras().getInt("current_val");
+        max_vlaue = getIntent().getExtras().getInt("max_value") ;
         smalltext.setText(getIntent().getExtras().getString("small_text"));
-        progress_setting(current_val);
+        if(current_val != 0) {
+            progress = (int)((float)((float)current_val / (float)max_vlaue)*100);
+            progress_setting((int)((float)((float)current_val / (float)max_vlaue)*100));
+        }
+        else
+        {
+            progress =0;
+            progress_setting(0);
+        }
+        room_name =getIntent().getExtras().getString("small_text");
+
+
 
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
@@ -98,6 +131,9 @@ public class DetailActivity extends AppCompatActivity {
         btn_down_arrow.setOnClickListener(viewOnClickListener);
         btn_full_up.setOnClickListener(viewOnClickListener);
         btn_full_down.setOnClickListener(viewOnClickListener);
+        btn_25per.setOnClickListener(viewOnClickListener);
+        btn_50per.setOnClickListener(viewOnClickListener);
+        btn_75per.setOnClickListener(viewOnClickListener);
         //블루투스 연결 체크
     }
 
@@ -112,31 +148,105 @@ public class DetailActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_up_arrow:
-                    current_val += 10;
-                    progress_setting(current_val);
-                    BT_Send(REQUEST_UP,3);
+                    current_val += max_vlaue/10;
+                    if(current_val > max_vlaue) {
+                        current_val = max_vlaue;
+                        progress_setting(100);
+                    }
+                    else {
+                        progress +=10;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_UP, max_vlaue/10);
+                        DB_Set(room_name, current_val);
+                    }
                     break;
 
                 case R.id.btn_down_arrow:
-                    current_val -= 10;
-                    if(current_val < 0)
-                        current_val =0;
+                    current_val -= max_vlaue/10;
+                    progress -=10;
+                    if(current_val < 0) {
+                        current_val = 0;
+                        progress = 0;
+                        progress_setting(0);
+                    }
                     else {
-                        progress_setting(current_val);
-                        BT_Send(REQUEST_DOWN, 3);
+                        progress_setting(progress);
+                        BT_Send(REQUEST_DOWN, max_vlaue/10);
+                        DB_Set(room_name,current_val);
                     }
                     break;
 
                 case R.id.btn_full_open:
-                    current_val = 100;
-                    progress_setting(current_val);
-                    BT_Send(REQUEST_FULL_UP,10);
+                    progress =100;
+                    progress_setting(progress);
+                    BT_Send(REQUEST_FULL_UP,(max_vlaue-current_val));
+                    current_val = max_vlaue;
+                    DB_Set(room_name,max_vlaue);
+
                     break;
 
                 case R.id.btn_full_close:
+                    progress =0;
+                    progress_setting(progress);
+                    BT_Send(REQUEST_FULL_DOWN,(current_val));
                     current_val = 0;
-                    progress_setting(current_val);
-                    BT_Send(REQUEST_FULL_DOWN,10);
+                    DB_Set(room_name,current_val);
+                    break;
+
+                case R.id.btn_25per:
+                    if(current_val < (float)max_vlaue*0.25)
+                    {
+                        progress =25;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_UP,(int)((float)max_vlaue*0.25 - current_val));
+                        current_val = (int)((float)max_vlaue*0.25);
+                        DB_Set(room_name,current_val);
+                    }
+                    else if(current_val > (float)max_vlaue*0.25)
+                    {
+                        progress =25;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_DOWN,(int)(current_val- (float)max_vlaue*0.25 ));
+                        current_val = (int)((float)max_vlaue*0.25);
+                        DB_Set(room_name,current_val);
+                    }
+                    break;
+
+                case R.id.btn_50per:
+                    if(current_val < (float)max_vlaue*0.5)
+                    {
+                        progress =50;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_UP,(int)((float)max_vlaue*0.5 - current_val));
+                        current_val = (int)((float)max_vlaue*0.5);
+                        DB_Set(room_name,current_val);
+                    }
+                    else if(current_val > (float)max_vlaue*0.5)
+                    {
+                        progress =50;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_DOWN,(int)(current_val- (float)max_vlaue*0.5 ));
+                        current_val = (int)((float)max_vlaue*0.5);
+                        DB_Set(room_name,current_val);
+                    }
+                    break;
+                case R.id.btn_75per:
+                    if(current_val < (float)max_vlaue*0.75)
+                    {
+                        progress =75;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_UP,(int)((float)max_vlaue*0.75 - current_val));
+                        current_val = (int)((float)max_vlaue*0.75);
+                        DB_Set(room_name,current_val);
+                    }
+                    else if(current_val > (float)max_vlaue*0.75)
+                    {
+                        progress =75;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_DOWN,(int)(current_val- (float)max_vlaue*0.75 ));
+                        current_val = (int)((float)max_vlaue*0.75);
+                        DB_Set(room_name,current_val);
+                    }
                     break;
 
                 default:
@@ -154,6 +264,15 @@ public class DetailActivity extends AppCompatActivity {
         btService.write(Send_value.getBytes());
     }
 
+    public void DB_Set(String room_name, int current_val)
+    {
+        String room = room_name;
+        int value = current_val;
+        dbHelper.update_current_val(room,value);
+
+    }
+
+
     public void progress_setting(int current_val)
     {
         progressbar.setProgressWithAnimation(current_val);
@@ -165,9 +284,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onResume();  // Always call the superclass method first
         // Get the Camera instance as the activity achieves full user focus
         Log.d(TAG, "detail Resume");
-        if (btService.getState() == 0) {
-            btService.getDeviceInfo(getIntent());
-        }
     }
 
     @Override
@@ -187,7 +303,7 @@ public class DetailActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         Log.d(TAG, "detail Stop");
-        //btService.stop();
+        btService.stop();
     }
 
 
