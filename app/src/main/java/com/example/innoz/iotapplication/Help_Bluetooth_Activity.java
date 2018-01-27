@@ -2,8 +2,11 @@ package com.example.innoz.iotapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +50,9 @@ public class Help_Bluetooth_Activity extends Activity {
     private static final int REQUEST_ENABLE_BT = 2;
     private static final int ADDROOM_FINISH = 1;
     private String BT_MSG = null;
+    BroadcastReceiver mReceiver = null;
+
+
 
     /**
      * Bluetooth Movement
@@ -118,6 +124,16 @@ public class Help_Bluetooth_Activity extends Activity {
             btService = new BluetoothService(this, mHandler);
         }
 
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction("com.example.innoz.iotapplication");
+
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        registerReceiver(bluetoothReceiver, filter);
+        filter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        registerReceiver(bluetoothReceiver, filter);
+        registerReceiver(bluetoothReceiver, intentfilter);
+
+
         /** DB Service **/
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
@@ -141,6 +157,8 @@ public class Help_Bluetooth_Activity extends Activity {
             finish();
         }
     };
+
+
 
 
     private View.OnClickListener mPagerListener = new View.OnClickListener() {
@@ -214,6 +232,7 @@ public class Help_Bluetooth_Activity extends Activity {
                     }
                     if(Room_Name != null && blind_counter !=0 && key !=null) {
                         dbHelper.insert(key, Room_Name, 0, blind_counter*100);
+                        BT_Send("SET",blind_counter*100);
                         btService.stop();
                         finish();
                     }
@@ -229,6 +248,41 @@ public class Help_Bluetooth_Activity extends Activity {
             }
         }
     };
+
+    //브로드캐스트리시버를 이용하여 블루투스 장치가 연결이 되고, 끊기는 이벤트를 받아 올 수 있다.
+    BroadcastReceiver bluetoothReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction(); //연결된 장치를 intent를 통하여 가져온다.
+            Boolean Connect_stat = intent.getExtras().getBoolean("connection_stat");
+             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE); //장치가 연결이 되었으면
+            if (Connect_stat) {
+                Log.d("TEST", device.getName().toString() + " Device Is Connected!");
+                //장치의 연결이 끊기면
+                 }
+                 else if(Connect_stat){
+                Log.d("TEST", device.getName().toString() +" Device Is Fail!");
+            }
+        }
+    };
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "detail Destroy");
+        btService.stop();
+        unregisterReceiver(bluetoothReceiver);
+    }
+
+
+    public void BT_Send(String send_data, int time)
+    {
+        String direction = send_data;
+        int running_time = time;
+        String Send_value = direction +":"+ running_time + "|";
+        btService.write(Send_value.getBytes());
+    }
 
     /**
      * PagerAdapter
@@ -322,9 +376,6 @@ public class Help_Bluetooth_Activity extends Activity {
                     //txt_Result.setText(key);
                     btService.getDeviceInfo(data);
                     Log.d(TAG, "Bluetooth key "+key);
-                    Toast.makeText(Help_Bluetooth_Activity.this,"연결되었습니다.",Toast.LENGTH_SHORT).show();
-                    vp.setCurrentItem(2);
-
                 }
                 break;
             case REQUEST_ENABLE_BT:

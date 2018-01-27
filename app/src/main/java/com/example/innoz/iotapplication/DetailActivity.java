@@ -122,8 +122,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         room_name =getIntent().getExtras().getString("small_text");
 
-
-
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
         btn_bot_bar.setOnClickListener(viewOnClickListener);

@@ -278,10 +278,16 @@ public class BluetoothService extends Activity{
             btAdapter.cancelDiscovery();
             try {
                 mmSocket.connect();
+                Intent sendIntent = new Intent("com.example.innoz.iotapplication.Bluetooth");
+                sendIntent.putExtra("connection_stat", true);
+                sendBroadcast(sendIntent);
                 Log.d(TAG, "Connect Success");
 
             } catch (IOException e) {
                 connectionFailed();
+                Intent sendIntent = new Intent("com.example.innoz.iotapplication.Bluetooth");
+                sendIntent.putExtra("connection_stat", false);
+                sendBroadcast(sendIntent);
                 Log.d(TAG, "Connect Fail");
                 try {
                     mmSocket.close();
