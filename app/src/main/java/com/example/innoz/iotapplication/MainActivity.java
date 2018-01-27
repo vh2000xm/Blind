@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, device_address);
                     Log.d(TAG, Room_name);
                     ////////////////////////////
-                    // ADDROOM Acrivity에서 데이터값 받아서 shared preference 저장.
+                    // ADDROOM Acrivity에서 데이터값 받아서 shared preference 저장. ........
                     ////////////////////////////
                 } else {
                     Toast.makeText(this, " 기기가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
