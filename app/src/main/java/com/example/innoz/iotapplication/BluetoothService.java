@@ -25,7 +25,7 @@ import java.util.UUID;
  * Created by Ahn on 2017-12-27.
  */
 
-public class BluetoothService {
+public class BluetoothService extends Activity{
     // Debugging
     private static final String TAG = "BluetoothService";
 
@@ -49,8 +49,6 @@ public class BluetoothService {
     private static final int STATE_CONNECTING = 2; // now initiating an outgoing
     private static final int STATE_CONNECTED = 3; // now connected to a remote
     // device
-
-
     public BluetoothService(Activity ac, Handler h) {
         mActivity = ac;
         mHandler = h;
@@ -360,6 +358,26 @@ public class BluetoothService {
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }
+        }
+
+        public String listenforMessage(){
+            String result = "";
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+            try {
+                int bytesRead = -1;
+                while(true) {
+                    bytesRead = mmInStream.read(buffer);
+                    if (bytesRead != -1) {
+                        while ( (bytesRead == bufferSize) && (buffer[bufferSize-1] != 0)) {
+                            result = result + new String(buffer, 0, bytesRead);
+                            bytesRead = mmInStream.read(buffer);
+                        }
+                        result = result + new String(buffer, 0, bytesRead -1);
+                    }
+                }
+            } catch (IOException e) {}
+            return result;
         }
 
         public void cancel() {
