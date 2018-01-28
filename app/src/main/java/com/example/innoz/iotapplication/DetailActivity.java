@@ -145,7 +145,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Blutooth_address = getIntent().getExtras().getString("address");
 
-
         //Layout Setting
         current_val = getIntent().getExtras().getInt("current_val");
         max_vlaue = getIntent().getExtras().getInt("max_value");
@@ -159,10 +158,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         room_name = getIntent().getExtras().getString("small_text");
 
-        ProgressDialog pd = null;
-
-//        btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
-        // MainActivity 에서 값 받아와서 smalltext 값 변경하기.
         btn_bot_bar.setOnClickListener(viewOnClickListener);
         btn_up_arrow.setOnClickListener(viewOnClickListener);
         btn_down_arrow.setOnClickListener(viewOnClickListener);
@@ -171,18 +166,14 @@ public class DetailActivity extends AppCompatActivity {
         btn_25per.setOnClickListener(viewOnClickListener);
         btn_50per.setOnClickListener(viewOnClickListener);
         btn_75per.setOnClickListener(viewOnClickListener);
-
-        //블루투스 연결 체크
     }
 
     private void registerReceiver_fun() {
-
         this.mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction(); //연결된 장치를 intent를 통하여 가져온다.
+                String action = intent.getAction();
                 Log.d(TAG, "action :" + action);
-//                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (Bluetooth_Stat_action.equals(action)) {
                     if (intent.getExtras().getBoolean("stat")) {
                         timer.cancel();
@@ -193,22 +184,10 @@ public class DetailActivity extends AppCompatActivity {
                         unnormal_exit();
                     }
                 }
-                //장치가 연결이 되었으면
-//                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-//                    timer.cancel();
-//                    pd.dismiss();
-//                    Log.d("TEST", device.getName().toString() + " Device Is Connected!");
-//                    //장치의 연결이 끊기면
-//                } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-//                    Log.d("TEST", device.getName().toString() + " Device Is DISConnected!");
-//                }
             }
         };
-
         IntentFilter filter3 = new IntentFilter();
         filter3.addAction(Bluetooth_Stat_action);
-//        filter3.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-//        filter3.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         registerReceiver(mReceiver, filter3);
         Log.d(TAG, "register Receiver");
     }
@@ -307,6 +286,7 @@ public class DetailActivity extends AppCompatActivity {
                         DB_Set(room_name, current_val);
                     }
                     break;
+
                 case R.id.btn_75per:
                     if (current_val < (float) max_vlaue * 0.75) {
                         progress = 75;
@@ -341,7 +321,6 @@ public class DetailActivity extends AppCompatActivity {
         String room = room_name;
         int value = current_val;
         dbHelper.update_current_val(room, value);
-
     }
 
 
@@ -377,7 +356,6 @@ public class DetailActivity extends AppCompatActivity {
             unregisterReceiver(mReceiver);
             mReceiver = null;
         }
-
     }
 
     @Override
