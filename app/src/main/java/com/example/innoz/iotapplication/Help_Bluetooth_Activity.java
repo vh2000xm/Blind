@@ -2,6 +2,7 @@ package com.example.innoz.iotapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -51,15 +53,15 @@ public class Help_Bluetooth_Activity extends Activity {
     private static final int ADDROOM_FINISH = 1;
     private String BT_MSG = null;
     BroadcastReceiver mReceiver = null;
-
+    private static String Bluetooth_Stat_action = "com.example.innoz.BLUETOOTH_STAT";
 
 
     /**
      * Bluetooth Movement
      **/
-    private static final int REQUEST_DOWN= 0;
-    private static final int REQUEST_UP= 1;
-    private static final int REQUEST_XX= 2;
+    private static final int REQUEST_DOWN = 0;
+    private static final int REQUEST_UP = 1;
+    private static final int REQUEST_XX = 2;
 
     /**
      * Data Base
@@ -71,7 +73,8 @@ public class Help_Bluetooth_Activity extends Activity {
      **/
     ViewPager vp = null;
     EditText Edit_Room_Name;
-    private static int current_page =0;
+    private static int current_page = 0;
+    private ProgressDialog pd ;
 
 
 //    Button btn_bluetooth;
@@ -87,7 +90,7 @@ public class Help_Bluetooth_Activity extends Activity {
      **/
     public String key = null;
     public String Room_Name = null;
-    public int tmp_counter =0;
+    public int tmp_counter = 0;
     public int blind_counter = 0;
     public Timer timer = null;
 
@@ -123,23 +126,12 @@ public class Help_Bluetooth_Activity extends Activity {
         if (btService == null) {
             btService = new BluetoothService(this, mHandler);
         }
-
-        IntentFilter intentfilter = new IntentFilter();
-        intentfilter.addAction("com.example.innoz.iotapplication");
-
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
-        registerReceiver(bluetoothReceiver, filter);
-        filter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        registerReceiver(bluetoothReceiver, filter);
-        registerReceiver(bluetoothReceiver, intentfilter);
-
+        registerReceiver_fun();
 
         /** DB Service **/
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
-
-
     }
 
     /**
@@ -159,28 +151,22 @@ public class Help_Bluetooth_Activity extends Activity {
     };
 
 
-
-
     private View.OnClickListener mPagerListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int id = v.getId();
             switch (id) {
                 case R.id.btn_nameok:
-                    EditText Room_name = (EditText)findViewById(R.id.edit_txt_Room_Name);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); // 키보드 설정
+                    EditText Room_name = (EditText) findViewById(R.id.edit_txt_Room_Name);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE); // 키보드 설정
                     imm.showSoftInput(Room_name, 0); // Edit text 눌렀을때 키보드 나오기
-                    if(Room_name.getText().toString().length() == 0)
-                    {
-                        Toast.makeText(Help_Bluetooth_Activity.this," 블라인드 이름을 입력해주세요",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    if (Room_name.getText().toString().length() == 0) {
+                        Toast.makeText(Help_Bluetooth_Activity.this, " 블라인드 이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    } else {
                         Room_Name = Room_name.getText().toString();
-                        Log.d(TAG,Room_Name);
-                        imm.hideSoftInputFromWindow(Room_name.getWindowToken(),0); // 키보드 내리기
-                        current_page++;
-                        vp.setCurrentItem(current_page);
+                        Log.d(TAG, Room_Name);
+                        imm.hideSoftInputFromWindow(Room_name.getWindowToken(), 0); // 키보드 내리기
+                        vp.setCurrentItem(1);
                     }
                     break;
 
@@ -208,7 +194,7 @@ public class Help_Bluetooth_Activity extends Activity {
                     // 타이머 시작
                     timer = new Timer();
                     timer.schedule(blind_time, 0, 1000);
-                    BT_MSG = "DOWN:"+String.format("%04d",0)+"|";
+                    BT_MSG = "DOWN:" + String.format("%04d", 0) + "|";
                     btService.write(BT_MSG.getBytes());
                     break;
 
@@ -216,8 +202,8 @@ public class Help_Bluetooth_Activity extends Activity {
                     // 타이머 끝
                     timer.cancel();
                     blind_counter = tmp_counter;
-                    tmp_counter =0;
-                    BT_MSG = "ST:"+String.format("%04d",0)+"|";
+                    tmp_counter = 0;
+                    BT_MSG = "ST:" + String.format("%04d", 0) + "|";
                     btService.write(BT_MSG.getBytes());
                     break;
 
@@ -230,15 +216,14 @@ public class Help_Bluetooth_Activity extends Activity {
                     if (dbHelper == null) {
                         dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
                     }
-                    if(Room_Name != null && blind_counter !=0 && key !=null) {
-                        dbHelper.insert(key, Room_Name, 0, blind_counter*100);
-                        BT_Send("SET",blind_counter*100);
+                    if (Room_Name != null && blind_counter != 0 && key != null) {
+                        dbHelper.insert(key, Room_Name, 0, blind_counter * 100);
+                        BT_Send("SET", blind_counter * 100);
+                        //unregisterReceiver(mReceiver);
                         btService.stop();
                         finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(Help_Bluetooth_Activity.this,"뭔가 빠트리진 않았나요",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Help_Bluetooth_Activity.this, "뭔가 빠트리진 않았나요", Toast.LENGTH_SHORT).show();
                     }
                     break;
 
@@ -249,38 +234,48 @@ public class Help_Bluetooth_Activity extends Activity {
         }
     };
 
-    //브로드캐스트리시버를 이용하여 블루투스 장치가 연결이 되고, 끊기는 이벤트를 받아 올 수 있다.
-    BroadcastReceiver bluetoothReceiver = new BroadcastReceiver()
-    {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction(); //연결된 장치를 intent를 통하여 가져온다.
-            Boolean Connect_stat = intent.getExtras().getBoolean("connection_stat");
-             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE); //장치가 연결이 되었으면
-            if (Connect_stat) {
-                Log.d("TEST", device.getName().toString() + " Device Is Connected!");
-                //장치의 연결이 끊기면
-                 }
-                 else if(Connect_stat){
-                Log.d("TEST", device.getName().toString() +" Device Is Fail!");
+
+    private void registerReceiver_fun() {
+
+        this.mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction(); //연결된 장치를 intent를 통하여 가져온다.
+                Log.d(TAG, "action :" + action);
+//                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (Bluetooth_Stat_action.equals(action)) {
+                    if (intent.getExtras().getBoolean("stat")) {
+                        vp.setCurrentItem(2);
+                        pd.dismiss();
+                        Log.d("TEST", " Device Is Connected!");
+                    } else if (intent.getExtras().getBoolean("stat")) {
+                        key = null;
+                        Log.d("TEST", " Device Is Connection Fail!");
+                        Toast.makeText(Help_Bluetooth_Activity.this,"장치가 정상적으로 연결되지 않습니다.\n 다시 시도해 주세요",Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
-        }
-    };
+        };
+        IntentFilter filter3 = new IntentFilter();
+        filter3.addAction(Bluetooth_Stat_action);
+        registerReceiver(mReceiver, filter3);
+        Log.d(TAG, "register Receiver");
+    }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "detail Destroy");
+        unregisterReceiver(mReceiver);
+        Log.d(TAG, "Help Destroy");
         btService.stop();
-        unregisterReceiver(bluetoothReceiver);
     }
 
 
-    public void BT_Send(String send_data, int time)
-    {
+    public void BT_Send(String send_data, int time) {
         String direction = send_data;
         int running_time = time;
-        String Send_value = direction +":"+ running_time + "|";
+        String Send_value = direction + ":" + running_time + "|";
         btService.write(Send_value.getBytes());
     }
 
@@ -291,7 +286,7 @@ public class Help_Bluetooth_Activity extends Activity {
 
         private LayoutInflater mInflater;
 
-        public PagerAdapterClass(Context c){
+        public PagerAdapterClass(Context c) {
             super();
             mInflater = LayoutInflater.from(c);
         }
@@ -335,13 +330,13 @@ public class Help_Bluetooth_Activity extends Activity {
                     break;
             }
 
-                ((ViewPager) pager).addView(v, 0);
-                return v;
+            ((ViewPager) pager).addView(v, 0);
+            return v;
         }
 
         @Override
         public void destroyItem(View pager, int position, Object view) {
-            ((ViewPager)pager).removeView((View)view);
+            ((ViewPager) pager).removeView((View) view);
         }
 
         @Override
@@ -349,10 +344,22 @@ public class Help_Bluetooth_Activity extends Activity {
             return pager == obj;
         }
 
-        @Override public void restoreState(Parcelable arg0, ClassLoader arg1) {}
-        @Override public Parcelable saveState() { return null; }
-        @Override public void startUpdate(View arg0) {}
-        @Override public void finishUpdate(View arg0) {}
+        @Override
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void startUpdate(View arg0) {
+        }
+
+        @Override
+        public void finishUpdate(View arg0) {
+        }
     }
 
     @Override
@@ -360,6 +367,8 @@ public class Help_Bluetooth_Activity extends Activity {
         super.onResume();  // Always call the superclass method first
         // Get the Camera instance as the activity achieves full user focus
         Log.d(TAG, "help Bluetooth Resume");
+        vp.setCurrentItem(0);
+
     }
 
     /**
@@ -375,7 +384,8 @@ public class Help_Bluetooth_Activity extends Activity {
                     key = data.getStringExtra("device_address");
                     //txt_Result.setText(key);
                     btService.getDeviceInfo(data);
-                    Log.d(TAG, "Bluetooth key "+key);
+                    Log.d(TAG, "Bluetooth key " + key);
+                    pd = ProgressDialog.show(Help_Bluetooth_Activity.this, "로딩중", "블루투스 연결 중입니다...");
                 }
                 break;
             case REQUEST_ENABLE_BT:

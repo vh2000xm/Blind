@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     ImageButton btn_sidemenu, btn_smallroom, btn_kitchen, btn_addroom, btn_mainroom;
     View drawerView;
+
+
+    public final static int BLUETOOTH_NOT_CONNECTED = 18;
+    public final static int BLUETOOTH_WELL_CONNECTED = 19;
     public String TAG = "MainActivity";
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private SQLiteService dbHelper = null;
@@ -95,11 +99,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             int id = v.getId();
             String detail_value = null;
-//            if(id != 999 )
-//            {
-//
-//            }
-
             switch (id) {
                 case R.id.btn_sidemenu:
                     mDrawerLayout.openDrawer(drawerView);
@@ -129,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
                     int max_value = Integer.parseInt(detail_value.split("\\|")[4]);
 
                     Log.d(TAG, "room_name : " + room_name);
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", room_name)
-                            .putExtra(EXTRA_DEVICE_ADDRESS, address).putExtra("current_val",current_value).putExtra("max_value",max_value));
+                    startActivityForResult(new Intent(MainActivity.this, DetailActivity.class).putExtra("small_text", room_name)
+                            .putExtra(EXTRA_DEVICE_ADDRESS, address).putExtra("current_val",current_value).putExtra("max_value",max_value),0);
                     break;
             }
         }
@@ -175,25 +174,18 @@ public class MainActivity extends AppCompatActivity {
         tableLayout.removeAllViews();
 
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (resultCode) {
 
-            case 1: // Accept Button Clicked in addroom activity..
-                String device_address = null;
-                String Room_name = null;
-                device_address = data.getStringExtra("address");
-                Room_name = data.getExtras().getString("room");
-                if (device_address != null && Room_name != null) {
-                    Log.d(TAG, device_address);
-                    Log.d(TAG, Room_name);
-                    ////////////////////////////
-                    // ADDROOM Acrivity에서 데이터값 받아서 shared preference 저장. ........
-                    ////////////////////////////
-                } else {
-                    Toast.makeText(this, " 기기가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                }
+            case BLUETOOTH_NOT_CONNECTED:
+                Toast.makeText(MainActivity.this, "블루투스가 정상적으로 연결되지 않습니다.", Toast.LENGTH_SHORT).show();
+                break;
+
+            case BLUETOOTH_WELL_CONNECTED:
+
                 break;
 
             default:
