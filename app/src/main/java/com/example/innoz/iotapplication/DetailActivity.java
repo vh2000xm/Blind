@@ -48,8 +48,6 @@ public class DetailActivity extends AppCompatActivity {
      **/
     private static final String REQUEST_DOWN = "DO";
     private static final String REQUEST_UP = "UP";
-    private static final String REQUEST_FULL_UP = "FU";
-    private static final String REQUEST_FULL_DOWN = "FD";
     private final static int BLUETOOTH_NOT_CONNECTED = 18;
     private final static int BLUETOOTH_WELL_CONNECTED = 19;
 
@@ -211,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
                     break;
 
-                case R.id.btn_up_arrow:
+                case R.id.btn_down_arrow:
                     current_val += max_vlaue / 10;
                     if (current_val > max_vlaue) {
                         current_val = max_vlaue;
@@ -219,12 +217,12 @@ public class DetailActivity extends AppCompatActivity {
                     } else {
                         progress += 10;
                         progress_setting(progress);
-                        BT_Send(REQUEST_UP, max_vlaue / 10);
+                        BT_Send(REQUEST_DOWN, max_vlaue / 10);
                         DB_Set(room_name, current_val);
                     }
                     break;
 
-                case R.id.btn_down_arrow:
+                case R.id.btn_up_arrow:
                     current_val -= max_vlaue / 10;
                     progress -= 10;
                     if (current_val < 0) {
@@ -233,75 +231,81 @@ public class DetailActivity extends AppCompatActivity {
                         progress_setting(0);
                     } else {
                         progress_setting(progress);
-                        BT_Send(REQUEST_DOWN, max_vlaue / 10);
+                        BT_Send(REQUEST_UP, max_vlaue / 10);
                         DB_Set(room_name, current_val);
                     }
                     break;
 
-                case R.id.btn_full_open:
-                    progress = 100;
-                    progress_setting(progress);
-                    BT_Send(REQUEST_FULL_UP, (max_vlaue - current_val));
-                    current_val = max_vlaue;
-                    DB_Set(room_name, max_vlaue);
-
+                case R.id.btn_full_close:
+                    if(!(current_val >= max_vlaue)) {
+                        progress = 100;
+                        progress_setting(progress);
+                        BT_Send(REQUEST_DOWN, (max_vlaue - current_val));
+                        current_val = max_vlaue;
+                        DB_Set(room_name, max_vlaue);
+                    }
                     break;
 
-                case R.id.btn_full_close:
+                case R.id.btn_full_open:
                     progress = 0;
                     progress_setting(progress);
-                    BT_Send(REQUEST_FULL_DOWN, (current_val));
+                    BT_Send(REQUEST_UP, (current_val));
                     current_val = 0;
                     DB_Set(room_name, current_val);
                     break;
 
                 case R.id.btn_25per:
-                    if (current_val < (float) max_vlaue * 0.25) {
+                    if (current_val > (float) max_vlaue * 0.25) {
                         progress = 25;
                         progress_setting(progress);
-                        BT_Send(REQUEST_UP, (int) ((float) max_vlaue * 0.25 - current_val));
+                        BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.25));
                         current_val = (int) ((float) max_vlaue * 0.25);
                         DB_Set(room_name, current_val);
-                    } else if (current_val > (float) max_vlaue * 0.25) {
+                    } else if (current_val < (float) max_vlaue * 0.25) {
                         progress = 25;
                         progress_setting(progress);
-                        BT_Send(REQUEST_DOWN, (int) (current_val - (float) max_vlaue * 0.25));
+                        BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * 0.25 - current_val));
                         current_val = (int) ((float) max_vlaue * 0.25);
                         DB_Set(room_name, current_val);
                     }
                     break;
 
                 case R.id.btn_50per:
-                    if (current_val < (float) max_vlaue * 0.5) {
+                    if (current_val > (float) max_vlaue * 0.5) {
                         progress = 50;
                         progress_setting(progress);
-                        BT_Send(REQUEST_UP, (int) ((float) max_vlaue * 0.5 - current_val));
+                        BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.5));
                         current_val = (int) ((float) max_vlaue * 0.5);
                         DB_Set(room_name, current_val);
-                    } else if (current_val > (float) max_vlaue * 0.5) {
+                    } else if (current_val < (float) max_vlaue * 0.5) {
                         progress = 50;
                         progress_setting(progress);
-                        BT_Send(REQUEST_DOWN, (int) (current_val - (float) max_vlaue * 0.5));
+                        BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * 0.5 - current_val));
                         current_val = (int) ((float) max_vlaue * 0.5);
                         DB_Set(room_name, current_val);
                     }
                     break;
 
                 case R.id.btn_75per:
-                    if (current_val < (float) max_vlaue * 0.75) {
+                    if (current_val > (float) max_vlaue * 0.75) {
                         progress = 75;
                         progress_setting(progress);
-                        BT_Send(REQUEST_UP, (int) ((float) max_vlaue * 0.75 - current_val));
+                        BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.75));
                         current_val = (int) ((float) max_vlaue * 0.75);
                         DB_Set(room_name, current_val);
-                    } else if (current_val > (float) max_vlaue * 0.75) {
+                    } else if (current_val < (float) max_vlaue * 0.75) {
                         progress = 75;
                         progress_setting(progress);
-                        BT_Send(REQUEST_DOWN, (int) (current_val - (float) max_vlaue * 0.75));
+                        BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * 0.75 - current_val));
                         current_val = (int) ((float) max_vlaue * 0.75);
                         DB_Set(room_name, current_val);
                     }
                     break;
+
+                case R.id.back_arrow:
+                    btService.stop();
+                    setResult(BLUETOOTH_WELL_CONNECTED);
+                    finish();
 
                 default:
                     Log.d(TAG, "눌리면안되는 곳이 눌리고야 말았다.");
