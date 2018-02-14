@@ -209,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
             switch (id) {
                 case R.id.btn_bot_alram_bar:
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
-                    ///// 인자값 넘기기(주소, 방이름)
+                    ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
                     break;
 
                 case R.id.btn_down_arrow:
