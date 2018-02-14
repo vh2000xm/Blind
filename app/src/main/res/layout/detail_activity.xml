@@ -76,7 +76,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_Detail_Setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/line3" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -260,7 +269,7 @@
                         android:id="@+id/btn_bot_alram_bar"
                         android:layout_width="360dp"
                         android:layout_height="50dp"
-                        android:background="@android:color/darker_gray"
+                        android:background="@android:color/transparent"
                         android:scaleType="fitXY"
                         app:srcCompat="@drawable/bot_bar"
                         tools:layout_editor_absoluteX="198dp"

@@ -77,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton btn_25per;
     private ImageButton btn_50per;
     private ImageButton btn_75per;
+    private ImageButton back_arrow;
 
     private ProgressDialog pd;
     private int loading_count = 0;
@@ -140,6 +141,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_25per = (ImageButton) findViewById(R.id.btn_25per);
         btn_50per = (ImageButton) findViewById(R.id.btn_50per);
         btn_75per = (ImageButton) findViewById(R.id.btn_75per);
+        back_arrow = (ImageButton) findViewById(R.id.back_arrow);
 
         Blutooth_address = getIntent().getExtras().getString("address");
 
@@ -207,6 +209,7 @@ public class DetailActivity extends AppCompatActivity {
             switch (id) {
                 case R.id.btn_bot_alram_bar:
                     startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
+                    ///// 인자값 넘기기(주소, 방이름)
                     break;
 
                 case R.id.btn_down_arrow:
