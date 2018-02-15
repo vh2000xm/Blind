@@ -87,16 +87,19 @@ public class DetailActivity extends AppCompatActivity {
     private int loading_count = 0;
     public Timer timer = null;
 
-    final TimerTask blind_time = new TimerTask() {
-        @Override
-        public void run() {
+
+
+    private class blind_time extends TimerTask{
+        public void run()
+        {
             Log.e("로딩 카운터:", String.valueOf(loading_count));
             loading_count++;
             if (loading_count > 10) {
                 unnormal_exit();
             }
+
         }
-    };
+    }
 
 
     private final Handler mHandler = new Handler() {
@@ -184,6 +187,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (Bluetooth_Stat_action.equals(action)) {
                     if (intent.getExtras().getBoolean("stat")) {
                         timer.cancel();
+                        timer = null;
                         pd.dismiss();
                         Log.d("TEST", " Device Is Connected!");
                     } else if (intent.getExtras().getBoolean("stat")) {
@@ -368,8 +372,10 @@ public class DetailActivity extends AppCompatActivity {
         super.onResume();  // Always call the superclass method first
         registerReceiver_fun();
         pd = ProgressDialog.show(DetailActivity.this, "로딩중", "블루투스 연결 중입니다...");
+        loading_count =0;
         timer = new Timer();
-        timer.schedule(blind_time, 0, 1000);
+        blind_time timetesk = new blind_time();
+        timer.schedule(timetesk, 0, 1000);
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         Log.d(TAG, "detail Resume");
     }
