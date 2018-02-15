@@ -30,7 +30,8 @@ public class SQLiteService extends SQLiteOpenHelper {
         sb.append("ADDRESS TEXT, ");
         sb.append("NAME TEXT, ");
         sb.append("CURRENT_PER INTEGER, ");
-        sb.append("MAX_VALUE INTEGER); ");
+        sb.append("MAX_VALUE INTEGER, ");
+        sb.append("USER_PER INTEGER); ");
         db.execSQL(sb.toString());
     }
 

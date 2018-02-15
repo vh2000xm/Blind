@@ -166,6 +166,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_25per.setOnClickListener(viewOnClickListener);
         btn_50per.setOnClickListener(viewOnClickListener);
         btn_75per.setOnClickListener(viewOnClickListener);
+        back_arrow.setOnClickListener(viewOnClickListener);
     }
 
     private void registerReceiver_fun() {
@@ -339,7 +340,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        // Get the Camera instance as the activity achieves full user focus
         registerReceiver_fun();
         pd = ProgressDialog.show(DetailActivity.this, "로딩중", "블루투스 연결 중입니다...");
         timer = new Timer();
