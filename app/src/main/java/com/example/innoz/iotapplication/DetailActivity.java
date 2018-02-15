@@ -211,11 +211,10 @@ public class DetailActivity extends AppCompatActivity {
     PopupMenu.OnMenuItemClickListener MenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Toast.makeText(getApplicationContext(),
-                    "팝업메뉴 이벤트 처리 - "
-                            + item.getTitle(),
-                    Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(DetailActivity.this, User_Setting_Activity.class));
             ///////// 여기에 다이얼 돌리는 유저 세팅 액티비티 띄우기///
+
             return false;
         }
     };
