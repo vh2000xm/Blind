@@ -383,6 +383,11 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        btService.stop();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
         Log.d(TAG, "detail Pause");
     }
 
