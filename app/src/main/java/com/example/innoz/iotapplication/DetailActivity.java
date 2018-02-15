@@ -220,9 +220,6 @@ public class DetailActivity extends AppCompatActivity {
         }
     };
 
-
-
-
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
