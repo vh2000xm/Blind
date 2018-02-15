@@ -12,8 +12,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +80,8 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton btn_50per;
     private ImageButton btn_75per;
     private ImageButton back_arrow;
+    private ImageButton btn_user_setting;
+    private PopupMenu p;
 
     private ProgressDialog pd;
     private int loading_count = 0;
@@ -142,6 +146,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_50per = (ImageButton) findViewById(R.id.btn_50per);
         btn_75per = (ImageButton) findViewById(R.id.btn_75per);
         back_arrow = (ImageButton) findViewById(R.id.back_arrow);
+        btn_user_setting = (ImageButton) findViewById(R.id.btn_Detail_User_Setting);
 
         Blutooth_address = getIntent().getExtras().getString("address");
 
@@ -167,6 +172,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_50per.setOnClickListener(viewOnClickListener);
         btn_75per.setOnClickListener(viewOnClickListener);
         back_arrow.setOnClickListener(viewOnClickListener);
+        btn_user_setting.setOnClickListener(viewOnClickListener);
     }
 
     private void registerReceiver_fun() {
@@ -201,6 +207,20 @@ public class DetailActivity extends AppCompatActivity {
         setResult(DetailActivity.BLUETOOTH_NOT_CONNECTED);
         finish();
     }
+
+    PopupMenu.OnMenuItemClickListener MenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            Toast.makeText(getApplicationContext(),
+                    "팝업메뉴 이벤트 처리 - "
+                            + item.getTitle(),
+                    Toast.LENGTH_SHORT).show();
+            ///////// 여기에 다이얼 돌리는 유저 세팅 액티비티 띄우기///
+            return false;
+        }
+    };
+
+
 
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
@@ -310,6 +330,16 @@ public class DetailActivity extends AppCompatActivity {
                     btService.stop();
                     setResult(BLUETOOTH_WELL_CONNECTED);
                     finish();
+                    break;
+
+
+                case R.id.btn_Detail_User_Setting:
+                    p = new PopupMenu(getApplicationContext(),v);
+                    getMenuInflater().inflate(R.menu.detail_menu, p.getMenu());
+                    Log.d(TAG,"On User_Setting Pressed!");
+                    p.setOnMenuItemClickListener(MenuItemClickListener);
+                    p.show(); // 메뉴를 띄우기
+                    break;
 
                 default:
                     Log.d(TAG, "눌리면안되는 곳이 눌리고야 말았다.");
