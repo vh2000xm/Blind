@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 import android.support.v4.view.ViewPager;
@@ -26,7 +25,7 @@ import java.util.UUID;
  * Created by Ahn on 2017-12-27.
  */
 
-public class BluetoothService extends AppCompatActivity {
+public class BluetoothService extends Activity{
     // Debugging
     private static final String TAG = "BluetoothService";
 
@@ -44,25 +43,11 @@ public class BluetoothService extends AppCompatActivity {
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
 
-    public boolean connect_stat;
-
     private int mState;
     private static final int STATE_NONE = 0; // we're doing nothing
     private static final int STATE_LISTEN = 1; // now listening for incoming
     private static final int STATE_CONNECTING = 2; // now initiating an outgoing
     private static final int STATE_CONNECTED = 3; // now connected to a remote
-
-
-
-
-
-    public void sendBroadCast(boolean stat){
-        Intent intent = new Intent("com.example.innoz.BLUETOOTH_STAT");
-        intent.putExtra("stat", stat);
-        sendBroadcast(intent);
-    }
-
-
     // device
     public BluetoothService(Activity ac, Handler h) {
         mActivity = ac;
@@ -293,16 +278,16 @@ public class BluetoothService extends AppCompatActivity {
             btAdapter.cancelDiscovery();
             try {
                 mmSocket.connect();
-                try {
-                    mActivity.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", true));
-                }catch (NullPointerException  e)
-                {
-                    Log.e(TAG,e.toString());
-                }
+                Intent sendIntent = new Intent("com.example.innoz.iotapplication.Bluetooth");
+                sendIntent.putExtra("connection_stat", true);
+                sendBroadcast(sendIntent);
                 Log.d(TAG, "Connect Success");
 
             } catch (IOException e) {
                 connectionFailed();
+                Intent sendIntent = new Intent("com.example.innoz.iotapplication.Bluetooth");
+                sendIntent.putExtra("connection_stat", false);
+                sendBroadcast(sendIntent);
                 Log.d(TAG, "Connect Fail");
                 try {
                     mmSocket.close();

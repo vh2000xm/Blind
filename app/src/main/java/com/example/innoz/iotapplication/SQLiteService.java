@@ -49,12 +49,12 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
     }
 
-    public void insert(String address, String room_name, int current_per, int max_value) {
+    public void insert(String address, String room_name, int current_per, int max_value, int user_per) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"');");
-        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE) VALUES('"+ address +"','"+ room_name +"','"+ current_per +"','"+ max_value +"');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per+"');");
+        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE) VALUES('"+ address +"','"+ room_name +"','"+ current_per +"','"+ max_value +"','"+user_per+"');");
         db.close();
     }
 

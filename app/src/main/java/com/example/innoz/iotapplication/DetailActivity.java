@@ -97,7 +97,6 @@ public class DetailActivity extends AppCompatActivity {
             if (loading_count > 10) {
                 unnormal_exit();
             }
-
         }
     }
 
@@ -370,12 +369,12 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        registerReceiver_fun();
-        pd = ProgressDialog.show(DetailActivity.this, "로딩중", "블루투스 연결 중입니다...");
-        loading_count =0;
-        timer = new Timer();
-        blind_time timetesk = new blind_time();
-        timer.schedule(timetesk, 0, 1000);
+//        registerReceiver_fun();
+//        pd = ProgressDialog.show(DetailActivity.this, "로딩중", "블루투스 연결 중입니다...");
+//        loading_count =0;
+//        timer = new Timer();
+//        blind_time timetesk = new blind_time();
+//        timer.schedule(timetesk, 0, 1000);
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
         Log.d(TAG, "detail Resume");
     }
