@@ -4,6 +4,7 @@
     <!-- Develope string-->
     <string name="test">테스트테스트</string>
     <string name="OK">확인</string>
+    <string name="CANCLE">취소</string>
 
 
     <string name="action_settings">Settings</string>
@@ -44,5 +45,11 @@
     <string name="v3">스마트 블라인드의 \n원활한 사용을 위해 \n간단한 측정을 수행하겠습니다. \n\n 스마트 블라인드의 \n 사용을 위한 블라인드를 \n 끝까지 올려주세요.  </string>
     <string name="v4">측정 시작 버튼을 \n 클릭하시면 블라인드가 \n 내려가게 됩니다.\n\n 블라인드가 끝까지 내려가면 \n‘측정 종료’버튼을 클릭해주세요.\n\n 측정이 완료되면 다음을 클릭해주세요. </string>
     <string name="v5">스마트 블라인드\n 등록을 위한 설정이 끝났습니다.\n\nEHook과 함께\n스마트한 블라인드를 사용해주세요.</string>
+
+    <!-- User Setting-->
+    <string name="user_setting">유저 세팅값을 선택해주세요</string>
+
+    <!-- User Alram-->
+    <string name="user_alram">알람시간을 선택해주세요</string>
 
 </resources>

@@ -363,7 +363,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void progress_setting(int current_val) {
-        progressbar.setProgressWithAnimation(current_val);
+        progressbar.setProgressWithAnimation(current_val,4000);
         txt_current_value.setText("  " + current_val + "%");
     }
 

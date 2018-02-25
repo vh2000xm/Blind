@@ -11,9 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteService dbHelper = null;
     public String first_button_num, last_button_num;
     public boolean draw_check = false;
+
+    ListView listview = null ;
 
 
     @Override
@@ -63,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         btn_sidemenu = (ImageButton) findViewById(R.id.btn_sidemenu);
         btn_sidemenu.setOnClickListener(viewOnClickListener);
         buttonCloseDrawer.setOnClickListener(viewOnClickListener);
+
+        final String[] items = {"","개발자 : 홍길동", "앱 버전 : alpha", "회사소개","문의하기"} ;
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.device_name,items);
+
+        listview = (ListView) findViewById(R.id.drawer_list) ;
+        listview.setAdapter(adapter) ;
     }
 
     @Override

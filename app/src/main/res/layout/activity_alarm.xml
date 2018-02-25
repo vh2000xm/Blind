@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_height="300dp"
     android:background="@color/white">
 
     <android.support.constraint.ConstraintLayout
@@ -27,55 +27,29 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="@string/user_setting"
+                android:text="@string/user_alram"
                 android:textAlignment="center"
                 android:textColor="@color/Main_Blue" />
         </LinearLayout>
 
-        <NumberPicker
-            android:id="@+id/npicker"
-            android:layout_width="63dp"
-            android:layout_height="73dp"
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="78dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="116dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/black"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:theme="@style/AppTheme.Picker"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/txt_per"
-            android:layout_width="29dp"
-            android:layout_height="22dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="84dp"
-            android:layout_marginTop="8dp"
-            android:text="%"
-            android:textAlignment="center"
-            android:textColor="@color/Main_Blue"
+            android:timePickerMode="spinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="0.477" />
-
-        <TextView
-            android:id="@+id/txt_numbn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="93dp"
-            tools:layout_editor_absoluteY="71dp" />
-
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="284dp"
-        android:layout_height="63dp"
+        android:layout_height="77dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -110,4 +84,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="284dp"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="137dp">
+
+        <ImageButton
+            android:id="@+id/btn_alram_25per"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="22dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/btn_25per" />
+
+        <ImageButton
+            android:id="@+id/btn_alram_50per"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/btn_alram_25per"
+            android:background="@android:color/transparent"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/btn_50per" />
+
+        <ImageButton
+            android:id="@+id/btn_alram_75per"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/btn_alram_50per"
+            android:background="@android:color/transparent"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/btn_75per" />
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

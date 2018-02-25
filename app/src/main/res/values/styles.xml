@@ -21,5 +21,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/Main_Blue</item>
+    </style>
+
 
 </resources>
