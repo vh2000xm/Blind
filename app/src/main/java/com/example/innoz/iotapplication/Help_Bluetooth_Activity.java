@@ -217,7 +217,7 @@ public class Help_Bluetooth_Activity extends Activity {
                         dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
                     }
                     if (Room_Name != null && blind_counter != 0 && key != null) {
-                        dbHelper.insert(key, Room_Name, blind_counter * 100, blind_counter * 100);
+                        dbHelper.insert(key, Room_Name, blind_counter * 100, blind_counter * 100,0);
                         BT_Send("SET", blind_counter * 100);
                         //unregisterReceiver(mReceiver);
                         btService.stop();

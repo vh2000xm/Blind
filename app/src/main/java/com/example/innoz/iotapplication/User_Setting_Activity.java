@@ -1,12 +1,14 @@
 package com.example.innoz.iotapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -16,7 +18,29 @@ import android.widget.TextView;
 
 public class User_Setting_Activity extends Activity {
 
+
+
+    private String TAG = "USER_SETTING_ACTIVITY";
+    /**
+     * Layout
+     **/
     NumberPicker nPicker;
+    Button OK;
+    Button CANCLE;
+
+    /**
+     * Etc Service
+     **/
+    private SQLiteService dbHelper = null;
+
+    /**
+     * Internal User_Setting
+     **/
+
+    private final static int USER_SETTING_WELL = 20;
+    private String room_name;
+    private int nPick_num=0;
+
 
 
     @Override
@@ -46,11 +70,35 @@ public class User_Setting_Activity extends Activity {
         nPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Log.d("usersetting","NumberPicker Pressed!"+nPicker.getValue());
-
+                Log.d("usersetting","NumberPicker Pressed!"+newVal);
+                nPick_num = newVal;
             }
         });
+        if (dbHelper == null) {
+            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+        }
+
+        room_name = getIntent().getExtras().getString("roomname");
+
+        OK = (Button)findViewById(R.id.btn_user_set_OK);
+
+        OK.setOnClickListener(viewOnClickListener);
     }
+
+    View.OnClickListener viewOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            switch (id) {
+                case R.id.btn_user_set_OK:
+                    Log.d(TAG,"Picker_NUM : "+nPick_num*5);
+                    dbHelper.update_User_set_val(room_name,nPick_num*5);
+                    setResult(USER_SETTING_WELL);
+                    finish();
+                    break;
+            }
+        }
+    };
 
 
 }

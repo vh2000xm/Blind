@@ -143,7 +143,7 @@ public class Addroom_Activity extends AppCompatActivity {
 
                 case R.id.btn_accept:
                     dbHelper.delete_all();
-                    dbHelper.insert("20:17:01:05:58:33","test",0,100);
+//                    dbHelper.insert("20:17:01:05:58:33","test",0,100);
                     finish();
 //                    if(txt_Roomname.getText().toString().length() != 0 && key != null) {
 //                        //SQL DB에 기기 주소 및 방 이름 입력하기.

@@ -49,12 +49,12 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
     }
 
-    public void insert(String address, String room_name, int current_per, int max_value) {
+    public void insert(String address, String room_name, int current_per, int max_value, int user_per) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"');");
-        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE) VALUES('"+ address +"','"+ room_name +"','"+ current_per +"','"+ max_value +"');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"');");
+        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"');");
         db.close();
     }
 
@@ -75,6 +75,13 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         // 방이름 기준 현재 퍼센트 수정
         db.execSQL("UPDATE BLUETOOTH_INFO SET CURRENT_PER=" + current_val + " WHERE NAME='" + room_name + "';");
+        db.close();
+    }
+
+    public void update_User_set_val(String room_name, int user_set_val) {
+        SQLiteDatabase db = getWritableDatabase();
+        // 방이름 기준 현재 퍼센트 수정
+        db.execSQL("UPDATE BLUETOOTH_INFO SET USER_PER=" + user_set_val + " WHERE NAME='" + room_name + "';");
         db.close();
     }
 
@@ -121,6 +128,18 @@ public class SQLiteService extends SQLiteOpenHelper {
         //마지막 번호 읽기
         String result="";
         Cursor cursor = db.rawQuery("SELECT NAME FROM BLUETOOTH_INFO WHERE NUM='"+i+"';", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        return  result;
+    }
+
+    public String get_user_setting(String room_name) {
+        SQLiteDatabase db = getWritableDatabase();
+        //마지막 번호 읽기
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT USER_PER FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
         while (cursor.moveToNext()) {
             result += cursor.getString(0);
         }

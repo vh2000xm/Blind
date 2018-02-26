@@ -65,6 +65,13 @@ public class DetailActivity extends AppCompatActivity {
 
 
     /**
+     * Internal User_Setting
+     **/
+
+    private final static int USER_SETTING_WELL = 20;
+
+
+    /**
      * Layout
      **/
     private int progress = 0;
@@ -79,9 +86,11 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton btn_25per;
     private ImageButton btn_50per;
     private ImageButton btn_75per;
-    private ImageButton back_arrow;
     private ImageButton btn_user_setting;
+    private ImageButton back_arrow;
+    private ImageButton btn_user_setting_menu;
     private PopupMenu p;
+    private String str_room_name;
 
     private ProgressDialog pd;
     private int loading_count = 0;
@@ -148,15 +157,18 @@ public class DetailActivity extends AppCompatActivity {
         btn_25per = (ImageButton) findViewById(R.id.btn_25per);
         btn_50per = (ImageButton) findViewById(R.id.btn_50per);
         btn_75per = (ImageButton) findViewById(R.id.btn_75per);
+        btn_user_setting = (ImageButton) findViewById(R.id.btn_user_setting);
         back_arrow = (ImageButton) findViewById(R.id.back_arrow);
-        btn_user_setting = (ImageButton) findViewById(R.id.btn_Detail_User_Setting);
+        btn_user_setting_menu = (ImageButton) findViewById(R.id.btn_Detail_User_Setting);
 
         Blutooth_address = getIntent().getExtras().getString("address");
 
         //Layout Setting
         current_val = getIntent().getExtras().getInt("current_val");
         max_vlaue = getIntent().getExtras().getInt("max_value");
-        smalltext.setText(getIntent().getExtras().getString("small_text"));
+
+        room_name = getIntent().getExtras().getString("small_text");
+        smalltext.setText(room_name);
         if (current_val != 0) {
             progress = (int) ((float) ((float) current_val / (float) max_vlaue) * 100);
             progress_setting((int) ((float) ((float) current_val / (float) max_vlaue) * 100));
@@ -164,7 +176,7 @@ public class DetailActivity extends AppCompatActivity {
             progress = 0;
             progress_setting(0);
         }
-        room_name = getIntent().getExtras().getString("small_text");
+
 
         btn_bot_bar.setOnClickListener(viewOnClickListener);
         btn_up_arrow.setOnClickListener(viewOnClickListener);
@@ -175,6 +187,7 @@ public class DetailActivity extends AppCompatActivity {
         btn_50per.setOnClickListener(viewOnClickListener);
         btn_75per.setOnClickListener(viewOnClickListener);
         back_arrow.setOnClickListener(viewOnClickListener);
+        btn_user_setting_menu.setOnClickListener(viewOnClickListener);
         btn_user_setting.setOnClickListener(viewOnClickListener);
     }
 
@@ -215,13 +228,23 @@ public class DetailActivity extends AppCompatActivity {
     PopupMenu.OnMenuItemClickListener MenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
-            startActivity(new Intent(DetailActivity.this, User_Setting_Activity.class));
-            ///////// 여기에 다이얼 돌리는 유저 세팅 액티비티 띄우기///
-
+            startActivityForResult(new Intent(DetailActivity.this, User_Setting_Activity.class).putExtra("roomname",room_name),0);
             return false;
         }
     };
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case USER_SETTING_WELL:
+                Toast.makeText(DetailActivity.this, "유저세팅이 정상적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+        }
+    }
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
@@ -326,6 +349,34 @@ public class DetailActivity extends AppCompatActivity {
                     }
                     break;
 
+                case R.id.btn_user_setting:
+                    String User_setting_val = dbHelper.get_user_setting(room_name);
+                    int int_User_setting = Integer.parseInt(User_setting_val);
+                    Log.d(TAG,"USER_SETTING_VALUE :"+User_setting_val);
+
+                    if(int_User_setting > 0) {
+
+                        if (current_val > (float) max_vlaue * (float) int_User_setting / 100) {
+                            progress = int_User_setting;
+                            progress_setting(progress);
+                            BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * (float) int_User_setting / 100));
+                            current_val = (int) ((float) max_vlaue * (float) int_User_setting / 100);
+                            DB_Set(room_name, current_val);
+                        } else if (current_val < (float) max_vlaue * (float) int_User_setting / 100) {
+                            progress = int_User_setting;
+                            progress_setting(progress);
+                            BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * (float) int_User_setting / 100 - current_val));
+                            current_val = (int) ((float) max_vlaue * (float) int_User_setting / 100);
+                            DB_Set(room_name, current_val);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(DetailActivity.this,"유저세팅값이 설정되지 않았습니다",Toast.LENGTH_SHORT).show();
+                    }
+
+                    break;
+
                 case R.id.back_arrow:
                     btService.stop();
                     setResult(BLUETOOTH_WELL_CONNECTED);
@@ -352,6 +403,7 @@ public class DetailActivity extends AppCompatActivity {
         String direction = send_data;
         int running_time = time;
         String Send_value = direction + ":" + running_time + "|";
+        Log.d(TAG,"BT Send" + Send_value);
         btService.write(Send_value.getBytes());
     }
 

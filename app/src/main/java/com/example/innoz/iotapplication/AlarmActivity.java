@@ -1,42 +1,85 @@
 package com.example.innoz.iotapplication;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.NumberPicker;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Ahn on 2018-01-06.
  */
 
-public class AlarmActivity  extends AppCompatActivity {
 
 
-    ImageButton btn_alram_25per;
-    String TAG = "AlarmActivity";
+public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTimeChangedListener {
 
+
+    // 알람 메니저
+    private AlarmManager mManager;
+    // 설정 일시
+    private GregorianCalendar mCalendar;
+    //        //일자 설정 클래스
+//        private DatePicker mDate;
+    //시작 설정 클래스
+    private TimePicker mTime;
+
+    /*
+ * 통지 관련 맴버 변수
+ */
+    private NotificationManager mNotification;
+
+    private ImageButton btn_alram_25per;
+    private ImageButton btn_alram_50per;
+    private ImageButton btn_alram_75per;
+    private Button OK;
+    private Button cancel;
+    private String TAG = "AlarmActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        WindowManager.LayoutParams layoutParams= new WindowManager.LayoutParams();
-        getWindow().setAttributes(layoutParams);
+        //통지 매니저를 취득
+        mNotification = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+        //알람 매니저를 취득
+        mManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        //현재 시각을 취득
+        mCalendar = new GregorianCalendar();
+        Log.i("HelloAlarmActivity",mCalendar.getTime().toString());
+
+
+        //버튼의 리스너를 등록
         setContentView(R.layout.activity_alarm);
+        OK = (Button)findViewById(R.id.btn_alram_set);
+        OK.setOnClickListener (viewOnClickListener);
+        cancel = findViewById(R.id.btn_alram_calcel);
+        cancel.setOnClickListener(new Button.OnClickListener() {public void onClick(View v) {resetAlarm();}});
+
+
+        mTime = (TimePicker)findViewById(R.id.time_picker);
+        mTime.setOnTimeChangedListener(this);
+
+//            requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//            getWindow().setAttributes(layoutParams);
+//            setContentView(R.layout.activity_alarm);
 
 //        btn_alram_25per = (ImageButton)findViewById(R.id.btn_arlam_25per);
 //        btn_alram_25per.setOnClickListener(viewOnClickListener);
@@ -44,18 +87,48 @@ public class AlarmActivity  extends AppCompatActivity {
 
     }
 
+    private void resetAlarm() {
+        mManager.cancel(pendingIntent());
+    }
+
+    private void setAlarm() {
+        mManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent());
+        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
+    }
+
+    //알람의 설정 시각에 발생하는 인텐트 작성
+    private PendingIntent pendingIntent() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
+        return pi;
+    }
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int id = v.getId();
             switch (id) {
-//                case R.id.btn_arlam_25per:
-//                    Log.d(TAG,"25per Clicked!!!");
-//                    ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
-//                    break;
+                case R.id.btn_alram_set:
+                    Log.d(TAG,"OK Button Clicked!!!");
+                    setAlarm();
+                    finish();
+                    ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
+                    break;
             }
         }
     };
 
+
+
+    public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+//        mCalendar.set (year, monthOfYear, dayOfMonth, mTime.getCurrentHour(), mTime.getCurrentMinute());
+        mCalendar.set (mTime.getCurrentHour(), mTime.getCurrentMinute());
+
+        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
+    }
+
 }
+
+
+
+
