@@ -31,7 +31,8 @@ public class SQLiteService extends SQLiteOpenHelper {
         sb.append("NAME TEXT, ");
         sb.append("CURRENT_PER INTEGER, ");
         sb.append("MAX_VALUE INTEGER, ");
-        sb.append("USER_PER INTEGER); ");
+        sb.append("USER_PER INTEGER,");
+        sb.append("ALRAM TEXT); ");
         db.execSQL(sb.toString());
     }
 
@@ -49,12 +50,12 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
     }
 
-    public void insert(String address, String room_name, int current_per, int max_value, int user_per) {
+    public void insert(String address, String room_name, int current_per, int max_value, int user_per, String ALRAM) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"');");
-        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,ALRAM) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
+        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,ALRAM) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
         db.close();
     }
 
@@ -68,6 +69,13 @@ public class SQLiteService extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         // 주소는 같으나 방 이름 수정.
         db.execSQL("UPDATE BLUETOOTH_INFO SET NAME=" + room_name + " WHERE ADDRESS='" + address + "';");
+        db.close();
+    }
+
+    public void update_alram(String room_name, String ALRAM) {
+        SQLiteDatabase db = getWritableDatabase();
+        // 주소는 같으나 방 이름 수정.
+        db.execSQL("UPDATE BLUETOOTH_INFO SET ALRAM=" + ALRAM + "  WHERE NAME='" + room_name + "';");
         db.close();
     }
 

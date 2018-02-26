@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -48,6 +49,11 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
     private Button OK;
     private Button cancel;
     private String TAG = "AlarmActivity";
+    private int Selected_per;
+
+    private SQLiteService dbHelper = null;
+
+    private String room_name;
 
 
     @Override
@@ -64,6 +70,12 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
         Log.i("HelloAlarmActivity",mCalendar.getTime().toString());
 
 
+
+        if (dbHelper == null) {
+            dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
+        }
+        room_name = getIntent().getExtras().getString("roomname");
+
         //버튼의 리스너를 등록
         setContentView(R.layout.activity_alarm);
         OK = (Button)findViewById(R.id.btn_alram_set);
@@ -75,14 +87,8 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
         mTime = (TimePicker)findViewById(R.id.time_picker);
         mTime.setOnTimeChangedListener(this);
 
-//            requestWindowFeature(Window.FEATURE_NO_TITLE);
-//            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-//            getWindow().setAttributes(layoutParams);
-//            setContentView(R.layout.activity_alarm);
-
-//        btn_alram_25per = (ImageButton)findViewById(R.id.btn_arlam_25per);
-//        btn_alram_25per.setOnClickListener(viewOnClickListener);
+        btn_alram_25per = (ImageButton)findViewById(R.id.btn_arlam_25per);
+        btn_alram_25per.setOnClickListener(viewOnClickListener);
 
 
     }
@@ -98,9 +104,11 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
 
     //알람의 설정 시각에 발생하는 인텐트 작성
     private PendingIntent pendingIntent() {
+        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
         return pi;
+
     }
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
@@ -110,8 +118,14 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
             switch (id) {
                 case R.id.btn_alram_set:
                     Log.d(TAG,"OK Button Clicked!!!");
-                    setAlarm();
+
                     finish();
+                    ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
+                    break;
+
+                case R.id.btn_arlam_25per:
+                    Selected_per = 25;
+                    Toast.makeText(AlarmActivity.this,"25% 선택됨",Toast.LENGTH_SHORT).show();
                     ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
                     break;
             }
@@ -122,9 +136,9 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
 
     public void onTimeChanged(TimePicker timePicker, int i, int i1) {
 //        mCalendar.set (year, monthOfYear, dayOfMonth, mTime.getCurrentHour(), mTime.getCurrentMinute());
-        mCalendar.set (mTime.getCurrentHour(), mTime.getCurrentMinute());
-
-        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
+        mCalendar.set(Calendar.HOUR_OF_DAY,i);
+        mCalendar.set(Calendar.MINUTE,i1);
+        Log.i("HelloAlarmActivity", "Hour"+i+"min"+i1);
     }
 
 }

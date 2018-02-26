@@ -252,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
             int id = v.getId();
             switch (id) {
                 case R.id.btn_bot_alram_bar:
-                    startActivity(new Intent(DetailActivity.this, AlarmActivity.class));
+                    startActivityForResult(new Intent(DetailActivity.this, AlarmActivity.class).putExtra("roomname",room_name),0);
                     ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
                     break;
 
