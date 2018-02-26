@@ -26,7 +26,7 @@
         <activity android:name=".Addroom_Activity" android:theme="@style/Theme.AppCompat.NoActionBar" android:screenOrientation="portrait"></activity>
         <activity android:name=".DeviceListActivity" android:theme="@style/Theme.AppCompat.Dialog" android:screenOrientation="portrait"></activity>
         <activity android:name=".Help_Bluetooth_Activity" android:theme="@style/Theme.AppCompat.NoActionBar" android:screenOrientation="portrait"></activity>
-        <activity android:name=".AlarmActivity" android:theme="@style/Theme.AppCompat.Dialog" android:screenOrientation="portrait"></activity>
+        <activity android:name=".AlarmActivity" android:theme="@style/Theme.MyDialog" android:screenOrientation="portrait"></activity>
         <activity android:name=".User_Setting_Activity" android:theme="@style/Theme.MyDialog" android:screenOrientation="portrait"></activity>
 
     </application>
