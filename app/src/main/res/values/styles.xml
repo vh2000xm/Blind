@@ -11,6 +11,7 @@
     <style name="NoTitle01" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -18,7 +19,13 @@
     </style>
 
     <style name="noaction" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.MyDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >

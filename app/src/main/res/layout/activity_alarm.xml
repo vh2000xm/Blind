@@ -4,93 +4,148 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="300dp"
-    android:background="@color/white"
-    tools:layout_editor_absoluteY="25dp">
+    android:background="@color/white">
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="284dp"
-        android:layout_height="234dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="22dp">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="284dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8dp">
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="@string/user_setting"
+                android:text="@string/user_alram"
                 android:textAlignment="center"
                 android:textColor="@color/Main_Blue" />
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
+        <TimePicker
+            android:id="@+id/npicker"
+            android:layout_width="244dp"
+            android:layout_height="73dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            android:theme="@style/AppTheme.Picker"
+            android:timePickerMode="spinner"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout6"
+        android:layout_width="284dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/OK"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/CANCLE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="0dp"
+        android:layout_height="84dp"
+        android:layout_marginBottom="79dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
 
-            <TimePicker
-                android:id="@+id/timepicker"
-                android:layout_width="268dp"
-                android:layout_height="73dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/black"
-                android:theme="@style/AppTheme.Picker"
-                android:timePickerMode="spinner"
-                android:visibility="visible" />
-        </TableRow>
+            <ImageButton
+                android:id="@+id/btn_arlam_25per"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="22dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/btn_25per" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/btn_arlam_50per"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/btn_50per" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp">
+            <ImageButton
+                android:id="@+id/btn_arlam_75per"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/btn_arlam_50per"
+                android:background="@android:color/transparent"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/btn_75per" />
 
-                <ImageButton
-                    android:id="@+id/btn_arlam_25per"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="22dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitStart"
-                    app:srcCompat="@drawable/btn_25per" />
 
-                <ImageButton
-                    android:id="@+id/btn_50per"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@+id/btn_25per"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitStart"
-                    app:srcCompat="@drawable/btn_50per" />
+        </RelativeLayout>
 
-                <ImageButton
-                    android:id="@+id/btn_75per"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@+id/btn_50per"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitStart"
-                    app:srcCompat="@drawable/btn_75per" />
-            </RelativeLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-    </TableLayout>
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
