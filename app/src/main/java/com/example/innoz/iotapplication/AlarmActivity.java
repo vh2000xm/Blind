@@ -32,18 +32,11 @@ public class AlarmActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         WindowManager.LayoutParams layoutParams= new WindowManager.LayoutParams();
         getWindow().setAttributes(layoutParams);
         setContentView(R.layout.activity_alarm);
-
-
-
 
 //        btn_alram_25per = (ImageButton)findViewById(R.id.btn_arlam_25per);
 //        btn_alram_25per.setOnClickListener(viewOnClickListener);
