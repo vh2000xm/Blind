@@ -29,6 +29,11 @@
         <activity android:name=".AlarmActivity" android:theme="@style/Theme.MyDialog" android:screenOrientation="portrait"></activity>
         <activity android:name=".User_Setting_Activity" android:theme="@style/Theme.MyDialog" android:screenOrientation="portrait"></activity>
 
+        <receiver android:name=".Alram_BroadCast">
+
+        </receiver>
+        <service android:name=".Alram_Service"/>
+
     </application>
 
 </manifest>

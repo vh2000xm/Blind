@@ -70,6 +70,12 @@ public class BluetoothService extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
+    // device
+    public BluetoothService(Handler h) {
+        mHandler = h;
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+    }
+
     /**
      * Check the Bluetooth support
      *
@@ -119,6 +125,15 @@ public class BluetoothService extends AppCompatActivity {
         // Get the device MAC address
         String address = data.getExtras().getString(
                 DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        // Get the BluetoothDevice object
+        // BluetoothDevice device = btAdapter.getRemoteDevice(address);
+        BluetoothDevice device = btAdapter.getRemoteDevice(address);
+        Log.d(TAG, "Get Device Info \n" + "address : " + address);
+        connect(device);
+    }
+    public void getDeviceInfo(String dev_address) {
+        // Get the device MAC address
+        String address = dev_address;
         // Get the BluetoothDevice object
         // BluetoothDevice device = btAdapter.getRemoteDevice(address);
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
@@ -303,6 +318,7 @@ public class BluetoothService extends AppCompatActivity {
 
             } catch (IOException e) {
                 connectionFailed();
+                mActivity.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", false));
                 Log.d(TAG, "Connect Fail");
                 try {
                     mmSocket.close();

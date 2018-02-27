@@ -69,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
      **/
 
     private final static int USER_SETTING_WELL = 20;
+    private final static int ALRAM_SETTING_WELL = 21;
 
 
     /**
@@ -77,6 +78,7 @@ public class DetailActivity extends AppCompatActivity {
     private int progress = 0;
     private TextView smalltext;
     private TextView txt_current_value;
+    private TextView txt_alram;
     public CircularProgressBar progressbar;
     private ImageButton btn_bot_bar;
     private ImageButton btn_up_arrow;
@@ -161,6 +163,8 @@ public class DetailActivity extends AppCompatActivity {
         back_arrow = (ImageButton) findViewById(R.id.back_arrow);
         btn_user_setting_menu = (ImageButton) findViewById(R.id.btn_Detail_User_Setting);
 
+        txt_alram = (TextView)findViewById(R.id.txt_alram) ;
+
         Blutooth_address = getIntent().getExtras().getString("address");
 
         //Layout Setting
@@ -176,6 +180,7 @@ public class DetailActivity extends AppCompatActivity {
             progress = 0;
             progress_setting(0);
         }
+
 
 
         btn_bot_bar.setOnClickListener(viewOnClickListener);
@@ -203,7 +208,7 @@ public class DetailActivity extends AppCompatActivity {
                         timer = null;
                         pd.dismiss();
                         Log.d("TEST", " Device Is Connected!");
-                    } else if (intent.getExtras().getBoolean("stat")) {
+                    } else if (!intent.getExtras().getBoolean("stat")) {
                         Log.d("TEST", " Device Is Connection Fail!");
                         unnormal_exit();
                     }
@@ -240,6 +245,9 @@ public class DetailActivity extends AppCompatActivity {
             case USER_SETTING_WELL:
                 Toast.makeText(DetailActivity.this, "유저세팅이 정상적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 break;
+            case ALRAM_SETTING_WELL:
+                Toast.makeText(DetailActivity.this, "알람이 정상적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                break;
 
             default:
                 break;
@@ -252,7 +260,7 @@ public class DetailActivity extends AppCompatActivity {
             int id = v.getId();
             switch (id) {
                 case R.id.btn_bot_alram_bar:
-                    startActivityForResult(new Intent(DetailActivity.this, AlarmActivity.class).putExtra("roomname",room_name),0);
+                    startActivityForResult(new Intent(DetailActivity.this, AlarmActivity.class).putExtra("roomname",room_name).putExtra("address",Blutooth_address),0);
                     ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
                     break;
 
@@ -415,6 +423,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void progress_setting(int current_val) {
+
         progressbar.setProgressWithAnimation(current_val,4000);
         txt_current_value.setText("  " + current_val + "%");
     }
@@ -429,6 +438,14 @@ public class DetailActivity extends AppCompatActivity {
         blind_time timetesk = new blind_time();
         timer.schedule(timetesk, 0, 1000);
         btService.getDeviceInfo(getIntent()); // 블루투스 주소값 받아와서 연결하기.
+        if (!dbHelper.get_user_alram(room_name).equals("0")) {
+            Log.d(TAG,"ALRAM DB Search" + dbHelper.get_user_alram(room_name));
+            String temp = dbHelper.get_user_alram(room_name);
+            String[] data = temp.split("\\|");
+            for(int i=0; i<data.length; ++i)
+                Log.d(TAG,"ALRAM DATA : "+data[i]);
+            txt_alram.setText(data[1] +"시" + data[2]+"분"+"   ["+data[0]+"%]");
+        }
         Log.d(TAG, "detail Resume");
     }
 

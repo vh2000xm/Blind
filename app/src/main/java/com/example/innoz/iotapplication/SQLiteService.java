@@ -32,7 +32,7 @@ public class SQLiteService extends SQLiteOpenHelper {
         sb.append("CURRENT_PER INTEGER, ");
         sb.append("MAX_VALUE INTEGER, ");
         sb.append("USER_PER INTEGER,");
-        sb.append("ALRAM TEXT); ");
+        sb.append("USER_ALR TEXT); ");
         db.execSQL(sb.toString());
     }
 
@@ -54,8 +54,8 @@ public class SQLiteService extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,ALRAM) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
-        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,ALRAM) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
+        db.execSQL("INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,USER_ALR) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
+        Log.d(TAG,"INSERT INTO BLUETOOTH_INFO(ADDRESS,NAME,CURRENT_PER,MAX_VALUE,USER_PER,USER_ALR) VALUES('"+address+"','"+room_name+"','"+current_per+"','"+max_value +"','"+user_per +"','"+ALRAM +"');");
         db.close();
     }
 
@@ -74,8 +74,7 @@ public class SQLiteService extends SQLiteOpenHelper {
 
     public void update_alram(String room_name, String ALRAM) {
         SQLiteDatabase db = getWritableDatabase();
-        // 주소는 같으나 방 이름 수정.
-        db.execSQL("UPDATE BLUETOOTH_INFO SET ALRAM=" + ALRAM + "  WHERE NAME='" + room_name + "';");
+        db.execSQL("UPDATE BLUETOOTH_INFO SET USER_ALR='" + ALRAM + "'  WHERE NAME='" + room_name + "';");
         db.close();
     }
 
@@ -145,9 +144,53 @@ public class SQLiteService extends SQLiteOpenHelper {
 
     public String get_user_setting(String room_name) {
         SQLiteDatabase db = getWritableDatabase();
-        //마지막 번호 읽기
         String result="";
         Cursor cursor = db.rawQuery("SELECT USER_PER FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        return  result;
+    }
+
+    public String get_user_alram(String room_name) {
+        SQLiteDatabase db = getWritableDatabase();
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT USER_ALR FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        Log.d(TAG,"USER USER_ALR Value : "+result);
+        return  result;
+    }
+
+    public String get_max_value(String room_name) {
+        SQLiteDatabase db = getWritableDatabase();
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT MAX_VALUE FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        return  result;
+    }
+
+    public String get_current_value(String room_name) {
+        SQLiteDatabase db = getWritableDatabase();
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT CURRENT_PER FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(0);
+        }
+        db.close();
+        return  result;
+    }
+
+    public String get_dev_address(String room_name) {
+        SQLiteDatabase db = getWritableDatabase();
+        String result="";
+        Cursor cursor = db.rawQuery("SELECT ADDRESS FROM BLUETOOTH_INFO WHERE NAME='" + room_name + "';", null);
         while (cursor.moveToNext()) {
             result += cursor.getString(0);
         }

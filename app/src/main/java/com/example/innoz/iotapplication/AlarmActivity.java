@@ -35,8 +35,14 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
     private GregorianCalendar mCalendar;
     //        //일자 설정 클래스
 //        private DatePicker mDate;
+
+    private final static int ALRAM_SETTING_WELL = 21;
     //시작 설정 클래스
     private TimePicker mTime;
+
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    private String Blutooth_address = null;
+
 
     /*
  * 통지 관련 맴버 변수
@@ -50,6 +56,10 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
     private Button cancel;
     private String TAG = "AlarmActivity";
     private int Selected_per;
+    private boolean per_selected =false;
+
+    private int Selected_HOUR;
+    private int Selected_MIN;
 
     private SQLiteService dbHelper = null;
 
@@ -69,19 +79,22 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
         mCalendar = new GregorianCalendar();
         Log.i("HelloAlarmActivity",mCalendar.getTime().toString());
 
-
-
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
         room_name = getIntent().getExtras().getString("roomname");
 
+        Blutooth_address = getIntent().getExtras().getString("address");
+
         //버튼의 리스너를 등록
         setContentView(R.layout.activity_alarm);
+
+
+
         OK = (Button)findViewById(R.id.btn_alram_set);
         OK.setOnClickListener (viewOnClickListener);
         cancel = findViewById(R.id.btn_alram_calcel);
-        cancel.setOnClickListener(new Button.OnClickListener() {public void onClick(View v) {resetAlarm();}});
+        cancel.setOnClickListener(viewOnClickListener);
 
 
         mTime = (TimePicker)findViewById(R.id.time_picker);
@@ -93,22 +106,35 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
 
     }
 
-    private void resetAlarm() {
-        mManager.cancel(pendingIntent());
+    public class AlarmHATT {
+        private Context context;
+
+        public AlarmHATT(Context context) {
+            this.context = context;
+        }
+
+        public void Alarm() {
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(AlarmActivity.this, Alram_BroadCast.class);
+            intent.putExtra("roomname",room_name);
+            intent.putExtra("percent",Selected_per);
+            intent.putExtra("address", Blutooth_address);
+
+            PendingIntent sender = PendingIntent.getBroadcast(AlarmActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Calendar calendar = Calendar.getInstance();
+            //알람시간 calendar에 set해주기
+
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), Selected_HOUR, Selected_MIN, 0);
+
+            //알람 예약
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        }
     }
+
 
     private void setAlarm() {
-        mManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent());
-        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
-    }
-
-    //알람의 설정 시각에 발생하는 인텐트 작성
-    private PendingIntent pendingIntent() {
-        Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
-        return pi;
-
+        new AlarmHATT(getApplicationContext()).Alarm();
     }
 
     View.OnClickListener viewOnClickListener = new View.OnClickListener() {
@@ -118,15 +144,27 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
             switch (id) {
                 case R.id.btn_alram_set:
                     Log.d(TAG,"OK Button Clicked!!!");
-
-                    finish();
+                    if(per_selected)
+                    {
+                        dbHelper.update_alram(room_name,String.valueOf(Selected_per)+'|'+String.valueOf(Selected_HOUR)+'|'+String.valueOf(Selected_MIN));
+                        Log.d(TAG,"DB Value :"+room_name+String.valueOf(Selected_per)+'|'+String.valueOf(Selected_HOUR)+'|'+String.valueOf(Selected_MIN));
+                        setResult(ALRAM_SETTING_WELL);
+                        setAlarm();
+                        finish();
+                    }
                     ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
                     break;
 
                 case R.id.btn_arlam_25per:
                     Selected_per = 25;
+                    per_selected = true;
                     Toast.makeText(AlarmActivity.this,"25% 선택됨",Toast.LENGTH_SHORT).show();
                     ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
+                    break;
+
+                case R.id.btn_alram_calcel:
+                    setResult(0);
+                    finish();
                     break;
             }
         }
@@ -136,8 +174,8 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
 
     public void onTimeChanged(TimePicker timePicker, int i, int i1) {
 //        mCalendar.set (year, monthOfYear, dayOfMonth, mTime.getCurrentHour(), mTime.getCurrentMinute());
-        mCalendar.set(Calendar.HOUR_OF_DAY,i);
-        mCalendar.set(Calendar.MINUTE,i1);
+        Selected_HOUR = i;
+        Selected_MIN = i1;
         Log.i("HelloAlarmActivity", "Hour"+i+"min"+i1);
     }
 
