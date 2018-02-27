@@ -101,9 +101,11 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
         mTime.setOnTimeChangedListener(this);
 
         btn_alram_25per = (ImageButton)findViewById(R.id.btn_arlam_25per);
+        btn_alram_50per = (ImageButton)findViewById(R.id.btn_arlam_50per);
+        btn_alram_75per = (ImageButton)findViewById(R.id.btn_arlam_75per);
         btn_alram_25per.setOnClickListener(viewOnClickListener);
-
-
+        btn_alram_50per.setOnClickListener(viewOnClickListener);
+        btn_alram_75per.setOnClickListener(viewOnClickListener);
     }
 
     public class AlarmHATT {
@@ -159,7 +161,18 @@ public class AlarmActivity extends AppCompatActivity implements TimePicker.OnTim
                     Selected_per = 25;
                     per_selected = true;
                     Toast.makeText(AlarmActivity.this,"25% 선택됨",Toast.LENGTH_SHORT).show();
-                    ///// 인자값 넘기기(주소, 방이름) 다이얼 만들기
+                    break;
+
+                case R.id.btn_arlam_50per:
+                    Selected_per = 50;
+                    per_selected = true;
+                    Toast.makeText(AlarmActivity.this,"50% 선택됨",Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.btn_arlam_75per:
+                    Selected_per = 75;
+                    per_selected = true;
+                    Toast.makeText(AlarmActivity.this,"75% 선택됨",Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.btn_alram_calcel:

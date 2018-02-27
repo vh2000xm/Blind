@@ -124,7 +124,33 @@ public class Alram_Service extends Service {
                                     current_val = (int) ((float) max_vlaue * 0.25);
                                     DB_Set(room_name, current_val);
                                 }
-                                Log.d(TAG, " Device Is Move!");
+                                Log.d(TAG, " Device Is Move!"+ will_move);
+                                break;
+
+                            case 50:
+                                if (current_val > (float) max_vlaue * 0.5) {
+                                    BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.5));
+                                    current_val = (int) ((float) max_vlaue * 0.5);
+                                    DB_Set(room_name, current_val);
+                                } else if (current_val < (float) max_vlaue * 0.5) {
+                                    BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * 0.5 - current_val));
+                                    current_val = (int) ((float) max_vlaue * 0.5);
+                                    DB_Set(room_name, current_val);
+                                }
+                                Log.d(TAG, " Device Is Move!"+ will_move);
+                                break;
+
+                            case 75:
+                                if (current_val > (float) max_vlaue * 0.75) {
+                                    BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.75));
+                                    current_val = (int) ((float) max_vlaue * 0.75);
+                                    DB_Set(room_name, current_val);
+                                } else if (current_val < (float) max_vlaue * 0.75) {
+                                    BT_Send(REQUEST_DOWN, (int) ((float) max_vlaue * 0.75 - current_val));
+                                    current_val = (int) ((float) max_vlaue * 0.75);
+                                    DB_Set(room_name, current_val);
+                                }
+                                Log.d(TAG, " Device Is Move!"+ will_move);
                                 break;
                         }
                         Log.d(TAG, " Device Is Connected!");
