@@ -30,6 +30,9 @@
         <activity android:name=".User_Setting_Activity" android:theme="@style/Theme.MyDialog" android:screenOrientation="portrait"></activity>
 
         <receiver android:name=".Alram_BroadCast">
+            <intent-filter>
+                <action android:name="com.example.innoz.SERVICE_STAT"></action>
+            </intent-filter>
 
         </receiver>
         <service android:name=".Alram_Service"/>

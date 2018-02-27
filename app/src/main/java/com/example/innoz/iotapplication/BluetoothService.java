@@ -40,6 +40,7 @@ public class BluetoothService extends AppCompatActivity {
 
     private BluetoothAdapter btAdapter;
     private Activity mActivity;
+    private Context mContext;
     private Handler mHandler;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -71,7 +72,8 @@ public class BluetoothService extends AppCompatActivity {
     }
 
     // device
-    public BluetoothService(Handler h) {
+    public BluetoothService(Context ct,Handler h) {
+        mContext = ct;
         mHandler = h;
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
@@ -309,7 +311,8 @@ public class BluetoothService extends AppCompatActivity {
             try {
                 mmSocket.connect();
                 try {
-                    mActivity.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", true));
+//                    mActivity.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", true));
+                    mContext.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", true));
                 }catch (NullPointerException  e)
                 {
                     Log.e(TAG,e.toString());
@@ -318,7 +321,7 @@ public class BluetoothService extends AppCompatActivity {
 
             } catch (IOException e) {
                 connectionFailed();
-                mActivity.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", false));
+                mContext.sendBroadcast(new Intent("com.example.innoz.BLUETOOTH_STAT").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("stat", false));
                 Log.d(TAG, "Connect Fail");
                 try {
                     mmSocket.close();

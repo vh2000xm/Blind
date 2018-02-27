@@ -21,16 +21,20 @@ public class Alram_BroadCast extends BroadcastReceiver {
     String TAG = "ALRAM";
 
     private String room_name = null;
+    private int selected_per = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {//알람 시간이 되었을때 onReceive를 호출함
         //NotificationManager 안드로이드 상태바에 메세지를 던지기위한 서비스 불러오고
+
+
         Toast.makeText(context, "알람 움직임 EXTRA : " + intent.getExtras().getString("roomname"), Toast.LENGTH_SHORT).show();
         room_name = intent.getExtras().getString("roomname");
-        context.startService(new Intent(context,Alram_Service.class).putExtra("roomname",room_name));
+        selected_per = intent.getExtras().getInt("percent");
+        context.startService(new Intent(context, Alram_Service.class).putExtra("roomname", room_name).putExtra("percent", selected_per));
+
+
     }
-
-
 }
 
 

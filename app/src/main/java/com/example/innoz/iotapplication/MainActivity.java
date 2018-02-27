@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btn_sidemenu, btn_smallroom, btn_kitchen, btn_addroom, btn_mainroom;
     View drawerView;
 
-
     public final static int BLUETOOTH_NOT_CONNECTED = 18;
     public final static int BLUETOOTH_WELL_CONNECTED = 19;
     public String TAG = "MainActivity";
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean draw_check = false;
 
     ListView listview = null ;
+
 
 
     @Override
@@ -50,15 +52,6 @@ public class MainActivity extends AppCompatActivity {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
         Log.d(TAG, "db value : " + dbHelper.getResult());
-
-//        if (dbHelper.select_last() == "" || dbHelper.select_first() == "") {
-//            Set_Layout(0, 0, false);
-//
-//        } else {
-//            first_button_num = dbHelper.select_first();
-//            last_button_num = dbHelper.select_last();
-//            Set_Layout(Integer.parseInt(first_button_num), Integer.parseInt(last_button_num), true);
-//        }
 
         Log.d(TAG, "Button _Num :" + last_button_num);
         // db 값 읽어서 동적생성
@@ -195,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case BLUETOOTH_WELL_CONNECTED:
-
                 break;
 
             default:

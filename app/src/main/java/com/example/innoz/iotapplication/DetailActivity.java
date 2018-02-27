@@ -137,12 +137,13 @@ public class DetailActivity extends AppCompatActivity {
 //        pd = ProgressDialog.show(DetailActivity.this, "로딩중", "블루투스 연결 중입니다...");
 
         if (btService == null) {
-            btService = new BluetoothService(this, mHandler);
+            btService = new BluetoothService(getApplicationContext(), mHandler);
         }
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
 
+        btService.stop();
 
         Log.d(TAG, getIntent().getExtras().getString("small_text"));
 //        Log.d(TAG, getIntent().getExtras().getString(EXTRA_DEVICE_ADDRESS));

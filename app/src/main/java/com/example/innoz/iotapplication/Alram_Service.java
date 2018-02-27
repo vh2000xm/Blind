@@ -47,6 +47,8 @@ public class Alram_Service extends Service {
     private int max_vlaue = 0;
     private String room_name = null;
 
+    private int will_move =0;
+
     String TAG = "Alram_Service";
 
 
@@ -79,23 +81,25 @@ public class Alram_Service extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
         Log.d("test", "서비스의 onStartCommand");
+
+        will_move = intent.getExtras().getInt("percent");
+        room_name = intent.getExtras().getString("roomname");
+
+        Log.d(TAG,"PERCENT : "+will_move);
+
         registerReceiver_fun(intent);
 
         if (btService == null) {
-            btService = new BluetoothService(mHandler);
+            btService = new BluetoothService(getApplicationContext(),mHandler);
         }
         if (dbHelper == null) {
             dbHelper = new SQLiteService(getApplicationContext(), "BLUETOOTH_INFO.db", null, 1);
         }
-
-        room_name = intent.getExtras().getString("roomname");
-
+        btService.getDeviceInfo( dbHelper.get_dev_address(room_name)); // 블루투스 주소값 받아와서 연결하기.
         String temp = dbHelper.get_max_value(room_name);
         max_vlaue = Integer.parseInt(temp);
         temp = dbHelper.get_current_value(room_name);
         current_val = Integer.parseInt(temp);
-
-        btService.getDeviceInfo( dbHelper.get_dev_address(room_name)); // 블루투스 주소값 받아와서 연결하기.
 
         return START_STICKY;
     }
@@ -107,8 +111,9 @@ public class Alram_Service extends Service {
                 String action = intent.getAction();
                 Log.d(TAG, "action :" + action);
 //                if (Bluetooth_Stat_action.equals(action)) {
-                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-                        switch (intent.getExtras().getInt("percent")) {
+                if (Bluetooth_Stat_action.equals(action)) {
+                    if (intent.getExtras().getBoolean("stat")) {
+                        switch (will_move) {
                             case 25:
                                 if (current_val > (float) max_vlaue * 0.25) {
                                     BT_Send(REQUEST_UP, (int) (current_val - (float) max_vlaue * 0.25));
@@ -119,9 +124,11 @@ public class Alram_Service extends Service {
                                     current_val = (int) ((float) max_vlaue * 0.25);
                                     DB_Set(room_name, current_val);
                                 }
+                                Log.d(TAG, " Device Is Move!");
                                 break;
                         }
-                        Log.d("TEST", " Device Is Connected!");
+                        Log.d(TAG, " Device Is Connected!");
+                    }
                 }
             }
         };
@@ -130,7 +137,6 @@ public class Alram_Service extends Service {
         registerReceiver(mReceiver, filter3);
         Log.d(TAG, "register Receiver");
     }
-
 
     public void DB_Set(String room_name, int current_val) {
         String room = room_name;
@@ -152,6 +158,8 @@ public class Alram_Service extends Service {
             unregisterReceiver(mReceiver);
             mReceiver = null;
         }
+        btService.stop();
+        btService = null;
         // 서비스가 종료될 때 실행
         Log.d(TAG, "서비스의 onDestroy");
     }
